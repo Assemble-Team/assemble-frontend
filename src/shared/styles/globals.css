@@ -5,7 +5,25 @@
   --foreground: #171717;
 }
 
+@layer base {
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
 @theme inline {
+  --color-brand-50: #e5f7ff;
+  --color-brand-100: #bdf0ff;
+  --color-brand-200: #82e4ff;
+  --color-brand-300: #47d8ff;
+  --color-brand-400: #0fb2ff;
+  --color-brand-500: #0fb2ff;
+  --color-brand-600: #0097db;
+  --color-brand-700: #0075a8;
+  --color-brand-800: #005478;
+  --color-brand-900: #00364d;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
