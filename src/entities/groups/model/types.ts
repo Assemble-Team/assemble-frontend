@@ -34,6 +34,15 @@ export interface JoinedGroup extends BaseGroup {
   levelLabel: string;
   myRole: 'LEADING' | 'MEMBER' | 'GUEST';
   unreadChatCount: number;
+  participants: {
+    current: number;
+    max: number;
+    isFull: boolean;
+  };
+  like: {
+    count: number;
+    isLiked: boolean;
+  };
   lastMessage?: {
     content: string;
     createdAt: string;

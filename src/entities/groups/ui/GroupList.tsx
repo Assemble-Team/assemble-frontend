@@ -1,7 +1,7 @@
 'use client';
 
 import { useGroupList } from '../api/useGroupList';
-import { GroupCard } from './GroupCard';
+import { GroupListItem } from './GroupListItem';
 
 export function GroupList() {
   const { data: groups } = useGroupList();
@@ -9,9 +9,9 @@ export function GroupList() {
   return (
     <div className="flex flex-col gap-6">
       {groups && groups.length > 0 ? (
-        <main className="grid grid-cols-1 gap-6 px-2 sm:grid-cols-2 lg:grid-cols-3">
+        <main className="grid grid-cols-1 gap-8 px-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {groups.map((group) => (
-            <GroupCard key={group.id} group={group} />
+            <GroupListItem key={group.id} group={group} />
           ))}
         </main>
       ) : (

@@ -54,10 +54,7 @@ export const GroupCard = ({ group }: GroupCardProps) => {
           <div className="flex items-center gap-2">
             <Users size={14} className="text-slate-300" />
             <span className="text-[11px] font-black tracking-tight text-slate-500">
-              {group.participants.current}명 참여 중
-              <span className="ml-1 font-medium text-slate-300">
-                / {group.participants.max}명
-              </span>
+              {group.participants.current}/{group.participants.max}명
             </span>
           </div>
 

@@ -2,8 +2,16 @@
 
 import { useState } from 'react';
 import { RankingTabSwitch } from '@/features/groups-ranking/ui/RankingTabSwitch';
-import { RankingList } from '@/widgets/ranking-list/ui/RankingList';
 import { ChevronRight } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+const RankingList = dynamic(
+  () =>
+    import('@/widgets/ranking-list/ui/RankingList').then(
+      (mod) => mod.RankingList
+    ),
+  { ssr: false }
+);
 import Link from 'next/link';
 import { ROUTES } from '@/shared/constants/routes';
 

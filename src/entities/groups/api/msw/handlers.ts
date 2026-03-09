@@ -133,6 +133,98 @@ const mockGroups: GroupDetailDTO[] = [
 
 // 2. HTTP 핸들러 정의
 export const groupHandlers = [
+  // GET /api/groups/liked - 내가 좋아요 한 모임
+  http.get('/api/groups/liked', () => {
+    return HttpResponse.json({
+      list: [
+        {
+          clubId: 2,
+          name: '독서 토론: 현대 문학',
+          imageUrl:
+            'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=600',
+          description: '매주 한 권의 책을 읽고 깊이 있게 토론해요.',
+          category: 'STUDY',
+          level: 'HIGH',
+          region: '서울 마포구',
+          status: 'RECRUTING',
+          curNumbers: 4,
+          maxNumbers: 10,
+          likes: 12,
+          liked: true,
+        },
+        {
+          clubId: 7,
+          name: '어쿠스틱 기타 합주',
+          imageUrl:
+            'https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=600',
+          description: '기타 연주를 즐기는 사람들의 편안한 합주 모임입니다.',
+          category: 'CULTURE_ART',
+          level: 'MID',
+          region: '서울 성동구',
+          status: 'RECRUTING',
+          curNumbers: 3,
+          maxNumbers: 8,
+          likes: 24,
+          liked: true,
+        },
+        {
+          clubId: 4,
+          name: 'TypeScript 마스터 클래스',
+          imageUrl:
+            'https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=600',
+          description: '함께 타입스크립트의 깊은 곳을 탐험해봅시다.',
+          category: 'PROJECT',
+          level: 'HIGH',
+          region: '온라인',
+          status: 'RECRUTING',
+          curNumbers: 5,
+          maxNumbers: 12,
+          likes: 88,
+          liked: true,
+        },
+      ],
+    });
+  }),
+
+  // GET /api/groups/pending - 승인 대기중 모임
+  http.get('/api/groups/pending', () => {
+    return HttpResponse.json({
+      list: [
+        {
+          clubId: 6,
+          name: '주간 알고리즘 첼린지',
+          imageUrl:
+            'https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=600',
+          description:
+            '매주 백준/프로그래머스 문제를 풀고 코드 리뷰를 진행합니다.',
+          category: 'STUDY',
+          level: 'MID',
+          region: '온라인',
+          status: 'RECRUTING',
+          curNumbers: 12,
+          maxNumbers: 50,
+          likes: 56,
+          liked: false,
+        },
+        {
+          clubId: 5,
+          name: '신사동 맛집 탐방대',
+          imageUrl:
+            'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=600',
+          description: '서울의 숨겨진 맛집을 찾아 떠납니다.',
+          category: 'HOBBY',
+          level: 'LOW',
+          region: '서울 강남구',
+          status: 'RECRUTING',
+          curNumbers: 20,
+          maxNumbers: 20,
+          likes: 15,
+          liked: false,
+        },
+      ],
+    });
+  }),
+
   // GET /api/groups/joined (가장 구체적인 경로를 처음에 배치)
   http.get('/api/groups/joined', () => {
     return HttpResponse.json({
@@ -347,6 +439,120 @@ export const groupHandlers = [
           createdAt: '2024-03-10T09:00:00Z',
           isFixed: false,
           authorName: '테니스장인',
+        },
+      ],
+    });
+  }),
+
+  // POST /api/groups/:id/like - 좋아요 토글
+  http.post('/api/groups/:id/like', ({ params }) => {
+    const { id } = params;
+    const group = mockGroups.find((g) => g.clubId === Number(id));
+
+    if (!group) {
+      return HttpResponse.json(
+        { message: '존재하지 않는 모임입니다.' },
+        { status: 404 }
+      );
+    }
+
+    // 상태 토글 (Mock)
+    group.liked = !group.liked;
+    group.likes = group.liked ? group.likes + 1 : group.likes - 1;
+
+    return HttpResponse.json({
+      isSuccess: true,
+      code: 'COMMON200',
+      message: '요청이 성공했습니다.',
+      result: {
+        clubId: group.clubId,
+        liked: group.liked,
+        likes: group.likes,
+      },
+      timestamp: new Date().toISOString(),
+    });
+  }),
+];
+
+export const activityHandlers = [
+  // GET /api/users/me/posts - 내가 작성한 게시글
+  http.get('/api/users/me/posts', () => {
+    return HttpResponse.json({
+      list: [
+        {
+          postId: 1,
+          clubId: 1,
+          clubName: '주말 테니스 정기 모임',
+          title: '오늘 테니스 정말 즐거웠습니다!',
+          content:
+            '초보인데도 다들 친절하게 가르쳐주셔서 감사합니다. 다음 주에도 꼭 갈게요!',
+          imageUrl:
+            'https://images.unsplash.com/photo-1595435066359-628d54622998?q=80&w=600',
+          commentCount: 5,
+          likeCount: 12,
+          createdAt: '2024-05-25T14:30:00Z',
+        },
+        {
+          postId: 2,
+          clubId: 2,
+          clubName: '독서 토론: 현대 문학',
+          title: '현대 문학 추천 도서 리스트 공유',
+          content:
+            '이번 주 스터디 때 언급되었던 작가들의 작품 목록입니다. 참고하세요.',
+          imageUrl: null,
+          commentCount: 8,
+          likeCount: 24,
+          createdAt: '2024-05-26T10:15:00Z',
+        },
+        {
+          postId: 3,
+          clubId: 4,
+          clubName: 'TypeScript 마스터 클래스',
+          title: 'FSD 아키텍처 도입 후기',
+          content:
+            '확실히 구조가 명확해지니까 협업하기 편하네요. 다들 어떻게 생각하시나요?',
+          imageUrl: null,
+          commentCount: 15,
+          likeCount: 42,
+          createdAt: '2024-05-27T09:00:00Z',
+        },
+      ],
+    });
+  }),
+
+  // GET /api/users/me/comments - 내가 작성한 댓글
+  http.get('/api/users/me/comments', () => {
+    return HttpResponse.json({
+      list: [
+        {
+          commentId: 1,
+          clubId: 1,
+          clubName: '주말 테니스 정기 모임',
+          postId: 10,
+          postTitle: '다음 주 모임 장소 공지',
+          content: '확인했습니다! 정시에 맞춰 가겠습니다.',
+          likeCount: 2,
+          createdAt: '2024-05-24T18:00:00Z',
+        },
+        {
+          commentId: 2,
+          clubId: 2,
+          clubName: '독서 토론: 현대 문학',
+          postId: 11,
+          postTitle: '이번 주 발제문 공유',
+          content: '좋은 주제네요! 특히 세 번째 질문이 인상적입니다.',
+          likeCount: 5,
+          createdAt: '2024-05-25T11:20:00Z',
+        },
+        {
+          commentId: 3,
+          clubId: 1,
+          clubName: '주말 테니스 정기 모임',
+          postId: 12,
+          postTitle: '라켓 추천 부탁드려요',
+          content: '바볼랏 퓨어 에어로 추천드립니다! 초보자가 쓰기에도 좋아요.',
+          likeCount: 8,
+          createdAt: '2024-05-26T13:45:00Z',
         },
       ],
     });

@@ -3,6 +3,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getGroupDetail } from './getGroupDetail';
 import { GroupDetail } from '../model/types';
+import { CATEGORY_MAP, LEVEL_MAP } from '../lib/constants';
 
 export const useGroupDetail = (id: string) => {
   return useSuspenseQuery({
@@ -15,8 +16,8 @@ export const useGroupDetail = (id: string) => {
         title: group.name,
         image: group.imageUrl || '/default-group.png',
         description: group.description,
-        categoryLabel: group.category,
-        levelLabel: group.level,
+        categoryLabel: CATEGORY_MAP[group.category] || group.category,
+        levelLabel: LEVEL_MAP[group.level] || group.level,
         location: group.region,
         participants: {
           current: group.curNumbers,

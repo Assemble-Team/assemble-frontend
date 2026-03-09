@@ -61,7 +61,7 @@ export const GroupHomeHero = ({ group }: GroupHomeHeroProps) => {
           <InfoItem
             icon={<Users size={18} />}
             label="정원"
-            value={`${group.participants.current} / ${group.participants.max}명`}
+            value={`${group.participants.current}/${group.participants.max}명`}
           />
           <InfoItem
             icon={<Calendar size={18} />}

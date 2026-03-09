@@ -5,19 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { getGroupList } from './getGroupList';
 import { Group } from '../model/types';
 
-const CATEGORY_MAP: Record<string, string> = {
-  EXERCISE: '운동',
-  STUDY: '스터디',
-  PROJECT: '프로젝트',
-  HOBBY: '취미',
-  CULTURE_ART: '문화/예술',
-};
-
-const LEVEL_MAP: Record<string, string> = {
-  LOW: '입문',
-  MID: '경험자',
-  HIGH: '전문가',
-};
+import { CATEGORY_MAP, LEVEL_MAP } from '../lib/constants';
 
 export const useGroupList = () => {
   const searchParams = useSearchParams();
