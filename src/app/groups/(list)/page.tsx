@@ -27,20 +27,23 @@ export default async function GroupListPage({ searchParams }: Props) {
   });
 
   return (
-    <div className="flex flex-col gap-4 px-4">
-      {/* 필터 섹션 */}
-      <section className="space-y-6">
+    <div className="flex flex-col gap-4 px-4 pb-20">
+      {/* 카테고리 탭 섹션 (최상단) */}
+      <section className="-mx-4 px-4">
+        <GroupCategoryFilter />
+      </section>
+
+      {/* 세부 필터 섹션 */}
+      <section className="mt-4 flex flex-col gap-6">
         <div className="flex flex-wrap items-center gap-4">
           <GroupStatusFilter />
           <div className="hidden h-5 w-[1px] bg-slate-200 sm:block" />
           <GroupLevelFilter />
         </div>
-        <div>
-          <GroupCategoryFilter />
-          <div className="mt-4 flex justify-between">
-            <FilterResetButton />
-            <GroupSortOrder />
-          </div>
+
+        <div className="flex items-center justify-between">
+          <FilterResetButton />
+          <GroupSortOrder />
         </div>
       </section>
 

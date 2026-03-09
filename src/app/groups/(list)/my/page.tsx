@@ -1,39 +1,9 @@
-'use client';
-
 import { Suspense } from 'react';
-import { useJoinedGroups } from '@/entities/groups/api/useJoinedGroups';
-import { JoinedGroupCard } from '@/entities/groups/ui/JoinedGroupCard';
-import { Sparkles } from 'lucide-react';
+import dynamic from 'next/dynamic';
 
-const MyGroupsListContent = () => {
-  const { data: groups } = useJoinedGroups();
-
-  if (groups.length === 0) {
-    return (
-      <div className="flex min-h-[400px] flex-col items-center justify-center gap-6 rounded-[3rem] border border-dashed border-slate-200 bg-slate-50/50 p-8 text-center">
-        <div className="text-brand-400 rounded-full bg-white p-4 shadow-sm">
-          <Sparkles size={32} />
-        </div>
-        <div className="space-y-2">
-          <p className="text-xl font-black text-slate-900">
-            아직 가입한 모임이 없네요!
-          </p>
-          <p className="font-medium text-slate-400">
-            새로운 모임에 참여하여 활동을 시작해보세요.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <main className="grid grid-cols-1 gap-6 px-2 sm:grid-cols-2 lg:grid-cols-3">
-      {groups.map((group) => (
-        <JoinedGroupCard key={group.id} group={group} />
-      ))}
-    </main>
-  );
-};
+const MyGroupsList = dynamic(() =>
+  import('@/features/groups').then((mod) => mod.MyGroupsList)
+);
 
 export default function GroupListMyPage() {
   return (
@@ -64,7 +34,7 @@ export default function GroupListMyPage() {
           </div>
         }
       >
-        <MyGroupsListContent />
+        <MyGroupsList />
       </Suspense>
     </div>
   );
