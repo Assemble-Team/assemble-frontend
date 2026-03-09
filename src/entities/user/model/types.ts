@@ -3,6 +3,13 @@ export interface User {
   email: string;
   name: string;
   avatarUrl?: string;
+  bio?: string;
+}
+
+export interface NotificationSettings {
+  scheduleApp: boolean;
+  boardApp: boolean;
+  noticeApp: boolean;
 }
 
 export interface UserState {
