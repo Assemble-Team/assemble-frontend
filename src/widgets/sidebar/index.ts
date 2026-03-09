@@ -1,3 +1,1 @@
-export { DesktopSidebar } from './ui/DesktopSidebar';
-
-export { MobileSidebar } from './ui/MobileSidebar';
+export { MainNavigationSidebar } from './ui/MainNavigationSidebar';

@@ -17,6 +17,7 @@ export const ROUTES = {
     GROUPS: {
       LIKED: '/mypage/groups/liked',
       JOINED: '/mypage/groups/joined',
+      PENDING: '/mypage/groups/pending',
     },
     ACTIVITIES: {
       POSTS: '/mypage/activities/posts',

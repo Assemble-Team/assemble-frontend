@@ -12,17 +12,21 @@ export default function SidebarTrigger() {
 
   const isGroupListPage =
     pathname === ROUTES.GROUPS.LIST ||
-    ROUTES.GROUPS.POPULAR ||
-    ROUTES.GROUPS.MY;
+    pathname === ROUTES.GROUPS.POPULAR ||
+    pathname === ROUTES.GROUPS.MY;
+
+  const isMyPage = pathname.startsWith('/mypage');
+  const isGroupDetailPage =
+    /^\/groups\/[^\/]+/.test(pathname) && !isGroupListPage;
 
   const handleClick = () => {
     const isDesktop = window.innerWidth >= 1024; // lg 기준
 
-    if (isGroupListPage && isDesktop) {
-      // 리스트 페이지 + 데스크탑 -> 축소/확장만 수행
+    if (isDesktop && (isGroupListPage || isMyPage || isGroupDetailPage)) {
+      // 데스크탑 + (그룹 목록, 마이페이지, 또는 그룹 상세) -> 사이드바 축소/확장
       toggleCollapsed();
     } else {
-      // 그 외 모든 상황 (모바일 또는 상세 페이지) -> 시트 형식
+      // 모바일 또는 기타 페이지 -> Sheet(Drawer) 열기
       toggle();
     }
   };

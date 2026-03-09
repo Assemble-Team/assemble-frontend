@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import '@/shared/styles/globals.css';
 import { Header } from '@/widgets/header';
-import { MobileSidebar } from '@/widgets/sidebar';
 import { pretendard } from '@/shared/lib/fonts';
 import Providers from './_providers/Providers';
+
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Assemble | 지역 기반 모임 플랫폼',
@@ -26,9 +27,9 @@ export default function RootLayout({ children, modal }: RootLayoutProps) {
     <html lang="ko" className={pretendard.variable}>
       <body>
         <Providers>
-          <Header />
-
-          <MobileSidebar />
+          <Suspense fallback={null}>
+            <Header />
+          </Suspense>
 
           {children}
 
