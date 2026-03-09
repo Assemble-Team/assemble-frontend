@@ -1,5 +1,9 @@
-import { TabPlaceholder } from '@/entities/groups/ui/TabPlaceholder';
+import { MyPostList } from '@/widgets/mypage';
 
 export default function MyPostsPage() {
-  return <TabPlaceholder title="나의 게시글" />;
+  return (
+    <div className="pt-4">
+      <MyPostList />
+    </div>
+  );
 }

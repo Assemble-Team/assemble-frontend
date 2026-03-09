@@ -1,5 +1,9 @@
-import { TabPlaceholder } from '@/entities/groups/ui/TabPlaceholder';
+import { NotificationSettings } from '@/widgets/mypage';
 
 export default function NotificationSettingsPage() {
-  return <TabPlaceholder title="알림 설정" />;
+  return (
+    <div>
+      <NotificationSettings />
+    </div>
+  );
 }
