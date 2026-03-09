@@ -1,5 +1,9 @@
-import { TabPlaceholder } from '@/entities/groups/ui/TabPlaceholder';
+import { ProfileEditForm } from '@/widgets/mypage';
 
 export default function ProfileSettingsPage() {
-  return <TabPlaceholder title="프로필 설정" />;
+  return (
+    <div>
+      <ProfileEditForm />
+    </div>
+  );
 }

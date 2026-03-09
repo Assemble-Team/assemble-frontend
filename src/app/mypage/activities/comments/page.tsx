@@ -1,5 +1,9 @@
-import { TabPlaceholder } from '@/entities/groups/ui/TabPlaceholder';
+import { MyCommentList } from '@/widgets/mypage';
 
 export default function MyCommentsPage() {
-  return <TabPlaceholder title="나의 댓글" />;
+  return (
+    <div className="pt-4">
+      <MyCommentList />
+    </div>
+  );
 }

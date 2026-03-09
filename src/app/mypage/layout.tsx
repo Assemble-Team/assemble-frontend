@@ -6,15 +6,12 @@ export default function MyPageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto flex w-full flex-col gap-8 px-4 py-12 md:flex-row md:px-8">
-      {/* 좌측 사이드바 */}
+    <div className="mx-auto flex w-full flex-col px-4 md:flex-row md:gap-x-8 md:px-8">
       <MyPageSidebar />
 
       {/* 우측 컨텐츠 영역 */}
       <main className="min-w-0 flex-1">
-        <div className="rounded-[2.5rem] border border-slate-100 bg-white p-6 shadow-sm md:p-10">
-          {children}
-        </div>
+        <div className="">{children}</div>
       </main>
     </div>
   );

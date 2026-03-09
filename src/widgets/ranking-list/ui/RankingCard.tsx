@@ -33,7 +33,7 @@ export const RankingCard = ({ ranking }: RankingCardProps) => {
   const getRankChangeUI = (change: string) => {
     if (change === 'NEW') {
       return (
-        <span className="rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-black text-amber-600 ring-1 ring-amber-200/50">
+        <span className="rounded-lg bg-amber-50 px-2 py-0.5 text-[9px] font-black tracking-widest text-amber-600 uppercase">
           NEW
         </span>
       );
@@ -60,8 +60,8 @@ export const RankingCard = ({ ranking }: RankingCardProps) => {
   return (
     <div
       className={cn(
-        'group hover:border-brand-200 relative flex items-center gap-4 overflow-hidden rounded-[2rem] border border-slate-100 bg-white p-4 transition-all duration-300 hover:shadow-lg md:gap-6 md:p-5',
-        ranking.rank <= 3 && 'border-brand-100/50 bg-brand-50/5'
+        'group relative flex items-center gap-4 border-b border-slate-50 py-4 transition-all duration-300 md:gap-6 md:py-6',
+        ranking.rank <= 3 && 'bg-brand-50/5'
       )}
     >
       {/* 순위 표시 */}
