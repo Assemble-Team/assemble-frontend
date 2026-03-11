@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/shared/ui/Button';
-import OfflineRegionSelectDialog from '@/shared/ui/RegionSelect/OfflineRegionSelectDialog';
+import { OfflineRegionSelectDialog } from '@/shared/ui/RegionSelect';
 
 import { useState } from 'react';
 import { ChevronDownIcon, MapPinIcon } from 'lucide-react';

@@ -1,4 +1,4 @@
-import Logo from '@/shared/ui/Logo/Logo';
+import { Logo } from '@/shared/ui/Logo';
 
 export default function HeroTitle() {
   return (

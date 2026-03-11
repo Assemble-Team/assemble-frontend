@@ -1,15 +1,10 @@
 'use client';
 
 import { Suspense } from 'react';
-import { cn } from '@/shared/lib/utils';
-import { useJoinedGroups } from '@/entities/groups';
-import { GroupListItem } from '@/entities/groups';
+import { JoinedGroupCard, useJoinedGroups } from '@/entities/groups';
+import { AsyncBoundary } from '@/shared/ui/AsyncBoundary';
 
-interface JoinedGroupListProps {
-  variant?: 'default' | 'compact';
-}
-
-function JoinedGroupListContent({ variant = 'default' }: JoinedGroupListProps) {
+function JoinedGroupListContent() {
   const { data: groups } = useJoinedGroups();
 
   if (groups.length === 0) {
@@ -21,49 +16,20 @@ function JoinedGroupListContent({ variant = 'default' }: JoinedGroupListProps) {
   }
 
   return (
-    <div
-      className={cn(
-        'grid gap-y-6 px-2',
-        variant === 'compact'
-          ? 'grid-cols-1 gap-x-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-          : 'grid-cols-2 gap-x-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
-      )}
-    >
+    <div className="grid grid-cols-2 gap-x-4 gap-y-8 px-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {groups.map((group) => (
-        <GroupListItem key={group.id} group={group} variant={variant} />
+        <JoinedGroupCard key={group.id} group={group} />
       ))}
     </div>
   );
 }
 
-function JoinedGroupListSkeleton({
-  variant = 'default',
-}: JoinedGroupListProps) {
+function JoinedGroupListSkeleton() {
   return (
-    <div
-      className={cn(
-        'grid gap-y-6 px-2',
-        variant === 'compact'
-          ? 'grid-cols-1 gap-x-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-          : 'grid-cols-2 gap-x-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
-      )}
-    >
+    <div className="grid grid-cols-2 gap-x-4 gap-y-8 px-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {Array.from({ length: 5 }).map((_, i) => (
-        <div
-          key={i}
-          className={cn(
-            'flex animate-pulse gap-3',
-            variant === 'compact' ? 'items-center' : 'flex-col'
-          )}
-        >
-          <div
-            className={cn(
-              'rounded-xl bg-slate-100',
-              variant === 'compact'
-                ? 'h-16 w-16'
-                : 'aspect-video w-full rounded-2xl'
-            )}
-          />
+        <div key={i} className="flex animate-pulse flex-col gap-3">
+          <div className="aspect-video w-full rounded-3xl bg-slate-100" />
           <div className="flex-1 space-y-2 px-1">
             <div className="h-4 w-2/3 rounded-full bg-slate-50" />
             <div className="h-3 w-1/2 rounded-full bg-slate-50" />
@@ -74,10 +40,14 @@ function JoinedGroupListSkeleton({
   );
 }
 
-export function JoinedGroupList({ variant = 'default' }: JoinedGroupListProps) {
+/**
+ * [Widget] 가입한 모임 목록
+ * AsyncBoundary를 통해 로딩 및 에러 상태를 처리합니다.
+ */
+export function JoinedGroupList() {
   return (
-    <Suspense fallback={<JoinedGroupListSkeleton variant={variant} />}>
-      <JoinedGroupListContent variant={variant} />
-    </Suspense>
+    <AsyncBoundary loadingFallback={<JoinedGroupListSkeleton />}>
+      <JoinedGroupListContent />
+    </AsyncBoundary>
   );
 }

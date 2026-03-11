@@ -1,8 +1,8 @@
 'use client';
 
-import { Suspense } from 'react';
 import { useLikedGroups } from '@/entities/groups';
-import { GroupListItem } from '@/entities/groups';
+import { GroupCard } from '@/entities/groups/ui/GroupCard';
+import { AsyncBoundary } from '@/shared/ui/AsyncBoundary';
 
 function LikedGroupListContent() {
   const { data: groups } = useLikedGroups();
@@ -18,7 +18,7 @@ function LikedGroupListContent() {
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-6 px-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {groups.map((group) => (
-        <GroupListItem key={group.id} group={group} />
+        <GroupCard key={group.id} group={group} />
       ))}
     </div>
   );
@@ -31,8 +31,8 @@ function LikedGroupListSkeleton() {
         <div key={i} className="flex animate-pulse flex-col gap-3">
           <div className="aspect-video w-full rounded-xl bg-slate-100" />
           <div className="space-y-2 px-1">
-            <div className="h-4 w-2/3 rounded-full bg-slate-50" />
-            <div className="h-3 w-1/2 rounded-full bg-slate-50" />
+            <div className="h-4 w-2/3 rounded-full bg-slate-100" />
+            <div className="h-3 w-1/2 rounded-full bg-slate-100" />
           </div>
         </div>
       ))}
@@ -42,13 +42,12 @@ function LikedGroupListSkeleton() {
 
 /**
  * [Widget] 좋아요 한 모임 목록
- * - entities/groups의 useLikedGroups 훅과 GroupCard 컴포넌트를 조합합니다.
- * - Suspense를 통해 로딩 상태를 처리합니다.
+ * AsyncBoundary를 통해 로딩 및 에러 상태를 처리합니다.
  */
 export function LikedGroupList() {
   return (
-    <Suspense fallback={<LikedGroupListSkeleton />}>
+    <AsyncBoundary loadingFallback={<LikedGroupListSkeleton />}>
       <LikedGroupListContent />
-    </Suspense>
+    </AsyncBoundary>
   );
 }

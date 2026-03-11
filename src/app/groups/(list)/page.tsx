@@ -1,57 +1,29 @@
-import {
-  GroupCategoryFilter,
-  GroupLevelFilter,
-  GroupStatusFilter,
-} from '@/features/groups-filter';
-import { FilterResetButton } from '@/features/groups-filter/ui/FilterResetButton';
 import { getQueryClient } from '@/shared/lib/tanstack-query/getQueryClient';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { GroupList } from '@/entities/groups/ui/GroupList';
 import { getGroupList } from '@/entities/groups/api/getGroupList';
-import { GroupSortOrder } from '@/features/groups-filter/ui/GroupSortOrder';
-import { GroupSearchResultHeader } from '@/entities/groups/ui/GroupSearchResultHeader';
+import { GroupListWidget } from '@/widgets/group-list/ui/GroupListWidget';
 
 interface Props {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
+/**
+ * 메인 모임 목록 페이지입니다.
+ * 서버에서 초기 데이터를 프리페칭하고 위젯을 렌더링합니다.
+ */
 export default async function GroupListPage({ searchParams }: Props) {
   const queryClient = getQueryClient();
   const params = await searchParams;
-  console.log('🚀 ~ GroupListPage ~ params:', params.query);
 
-  // 1. 서버에서 프리페칭 시작
+  // 서버사이드 데이터 프리페칭
   await queryClient.prefetchQuery({
     queryKey: ['groups', params],
-    queryFn: () => getGroupList(params), // 서버사이드 MSW가 이를 가로챔
+    queryFn: () => getGroupList(params),
   });
 
   return (
-    <div className="flex flex-col gap-4 px-4 pb-20">
-      {/* 카테고리 탭 섹션 (최상단) */}
-      <section className="-mx-4 px-4">
-        <GroupCategoryFilter />
-      </section>
-
-      {/* 세부 필터 섹션 */}
-      <section className="mt-4 flex flex-col gap-6">
-        <div className="flex flex-wrap items-center gap-4">
-          <GroupStatusFilter />
-          <div className="hidden h-5 w-[1px] bg-slate-200 sm:block" />
-          <GroupLevelFilter />
-        </div>
-
-        <div className="flex items-center justify-between">
-          <FilterResetButton />
-          <GroupSortOrder />
-        </div>
-      </section>
-
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        {params.query && <GroupSearchResultHeader />}
-        {/* 리스트 결과 섹션 */}
-        <GroupList />
-      </HydrationBoundary>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <GroupListWidget />
+    </HydrationBoundary>
   );
 }

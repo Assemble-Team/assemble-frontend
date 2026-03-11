@@ -3,7 +3,7 @@
 import { useGroupNotices } from '@/entities/groups/api/useGroupNotices';
 import { NoticeCard } from './NoticeCard';
 import { Megaphone } from 'lucide-react';
-import Button from '@/shared/ui/Button/Button';
+import { Button } from '@/shared/ui/Button';
 
 interface NoticeListProps {
   groupId: string;

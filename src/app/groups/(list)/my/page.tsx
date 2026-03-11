@@ -1,9 +1,4 @@
-import { Suspense } from 'react';
-import dynamic from 'next/dynamic';
-
-const MyGroupsList = dynamic(() =>
-  import('@/features/groups').then((mod) => mod.MyGroupsList)
-);
+import { MyGroupsList } from '@/features/groups';
 
 export default function GroupListMyPage() {
   return (
@@ -22,20 +17,7 @@ export default function GroupListMyPage() {
       </div>
 
       {/* 리스트 섹션 */}
-      <Suspense
-        fallback={
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="aspect-square w-full animate-pulse rounded-[2.5rem] bg-slate-100"
-              />
-            ))}
-          </div>
-        }
-      >
-        <MyGroupsList />
-      </Suspense>
+      <MyGroupsList />
     </div>
   );
 }

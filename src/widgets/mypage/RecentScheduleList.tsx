@@ -39,7 +39,7 @@ export function RecentScheduleList() {
   return (
     <div className="flex flex-col gap-5 px-1 py-2">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-black tracking-widest text-slate-400 uppercase">
+        <h3 className="text-base font-black tracking-tight text-slate-900">
           최근 모임 일정
         </h3>
         <button className="text-brand-500 hover:text-brand-600 text-[11px] font-black tracking-tight uppercase transition-colors">

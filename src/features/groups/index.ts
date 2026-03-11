@@ -1,1 +1,1 @@
-export * from './ui/MyGroupsList';
+export { MyGroupsList } from './ui/MyGroupsList.client';

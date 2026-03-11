@@ -1,4 +1,4 @@
-import Input from '@/shared/ui/Input';
+import { Input } from '@/shared/ui/Input';
 import {
   InputGroup,
   InputGroupAddon,

@@ -3,8 +3,8 @@
 import { Suspense, useState, useEffect } from 'react';
 import { useMyProfile, useUpdateProfile } from '@/entities/user';
 import { Button } from '@/shared/ui/Button';
-import Input from '@/shared/ui/Input';
-import Textarea from '@/shared/ui/Textarea';
+import { Input } from '@/shared/ui/Input';
+import { Textarea } from '@/shared/ui/Textarea';
 import { Camera, Loader2, CheckCircle2 } from 'lucide-react';
 
 function ProfileEditFormContent() {

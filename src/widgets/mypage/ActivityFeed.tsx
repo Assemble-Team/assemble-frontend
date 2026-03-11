@@ -44,7 +44,7 @@ export function ActivityFeed() {
   return (
     <div className="flex flex-col gap-5 px-1 py-2">
       <div className="flex items-center justify-between pb-1">
-        <h3 className="text-sm font-black tracking-widest text-slate-400 uppercase">
+        <h3 className="text-base font-black tracking-tight text-slate-900">
           최근 활동 내역
         </h3>
       </div>

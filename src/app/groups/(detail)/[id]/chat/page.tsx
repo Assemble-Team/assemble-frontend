@@ -1,8 +1,4 @@
-import dynamic from 'next/dynamic';
-
-const GroupChat = dynamic(() =>
-  import('@/features/groups-chat').then((mod) => mod.GroupChat)
-);
+import { GroupChat } from '@/features/groups-chat/ui/GroupChat.client';
 
 export default function GroupChatPage() {
   return <GroupChat />;

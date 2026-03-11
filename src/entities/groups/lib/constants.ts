@@ -11,3 +11,8 @@ export const LEVEL_MAP: Record<string, string> = {
   MID: '중급',
   HIGH: '심화',
 };
+
+export const STATUS_MAP: Record<string, string> = {
+  RECRUTING: '모집중',
+  CLOSED: '모집 완료',
+};

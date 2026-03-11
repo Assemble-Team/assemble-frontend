@@ -8,6 +8,7 @@ interface BaseGroup {
   description: string;
   categoryLabel: string;
   location: string;
+  statusLabel: string;
 }
 
 /**
@@ -58,6 +59,7 @@ export interface JoinedGroup extends BaseGroup {
  */
 export interface GroupDetail extends Group {
   myRole: 'LEADING' | 'MEMBER' | 'GUEST';
+  isPending?: boolean;
   unreadChatCount?: number;
   nextSchedule?: {
     title: string;
@@ -88,4 +90,54 @@ export interface GroupRanking {
   rankChange: string; // '+2', '-1', '0', 'NEW'
   imageUrl?: string;
   category?: string;
+}
+
+/**
+ * [Frontend Type] 자유 게시판 게시글 데이터 구조
+ */
+export interface GroupPost {
+  id: number;
+  title: string;
+  content: string;
+  authorName: string;
+  authorImageUrl?: string;
+  createdAt: string;
+  commentCount: number;
+  likeCount: number;
+}
+
+/**
+ * [API Request] 게시글 작성 요청 데이터 구조
+ */
+export interface CreatePostRequest {
+  title: string;
+  content: string;
+  images?: string[];
+}
+
+/**
+ * [Frontend Type] 모임 일정 데이터 구조
+ */
+export interface GroupSchedule {
+  id: number;
+  title: string;
+  content: string;
+  date: string; // YYYY-MM-DD
+  time: string; // HH:mm
+  location: string;
+  maxParticipants: number;
+  currentParticipants: number;
+  isJoined: boolean;
+}
+
+/**
+ * [API Request] 일정 등록 요청 데이터 구조
+ */
+export interface CreateScheduleRequest {
+  title: string;
+  content: string;
+  date: string;
+  time: string;
+  location: string;
+  maxParticipants: number;
 }

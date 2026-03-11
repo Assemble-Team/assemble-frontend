@@ -9,12 +9,14 @@ interface JoinGroupButtonProps {
   groupId: number;
   isFull: boolean;
   isRecruiting: boolean;
+  isPending?: boolean;
 }
 
 export const JoinGroupButton = ({
   groupId,
   isFull,
   isRecruiting,
+  isPending = false,
 }: JoinGroupButtonProps) => {
   const { isAuthenticated } = useUserStore();
   const router = useRouter();
@@ -30,12 +32,14 @@ export const JoinGroupButton = ({
     alert('가입 신청이 완료되었습니다!');
   };
 
-  const isDisabled = !isRecruiting || isFull;
+  const isDisabled = !isRecruiting || isFull || isPending;
   const buttonText = !isRecruiting
     ? '모집 완료'
     : isFull
       ? '정원 초과'
-      : '모임 신청하기';
+      : isPending
+        ? '승인 대기중'
+        : '모임 신청하기';
 
   return (
     <Button

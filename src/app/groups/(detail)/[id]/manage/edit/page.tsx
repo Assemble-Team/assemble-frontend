@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useGroupDetail } from '@/entities/groups/api/useGroupDetail';
 import { Settings, ChevronLeft, Save } from 'lucide-react';
-import Button from '@/shared/ui/Button/Button';
+import { Button } from '@/shared/ui/Button';
 import Link from 'next/link';
 
 const EditGroupPageContent = ({ groupId }: { groupId: string }) => {
