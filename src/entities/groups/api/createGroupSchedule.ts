@@ -1,5 +1,5 @@
 import { apiClient } from '@/shared/api/apiClient';
-import { ApiSuccess } from '@/shared/api/types';
+import { ApiResponse } from '@/shared/api/types';
 import { CreateScheduleRequest } from '../model/types';
 
 export interface CreateScheduleResponse {
@@ -9,8 +9,8 @@ export interface CreateScheduleResponse {
 export const createGroupSchedule = async (
   groupId: string | number,
   data: CreateScheduleRequest
-): Promise<ApiSuccess<CreateScheduleResponse>> => {
+): Promise<ApiResponse<CreateScheduleResponse>> => {
   return apiClient
     .post(`groups/${groupId}/schedules`, { json: data })
-    .json<ApiSuccess<CreateScheduleResponse>>();
+    .json<ApiResponse<CreateScheduleResponse>>();
 };

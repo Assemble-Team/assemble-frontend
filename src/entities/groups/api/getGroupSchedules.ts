@@ -1,5 +1,5 @@
 import { apiClient } from '@/shared/api/apiClient';
-import { ApiSuccess } from '@/shared/api/types';
+import { ApiResponse } from '@/shared/api/types';
 
 export interface GroupScheduleDTO {
   scheduleId: number;
@@ -15,8 +15,8 @@ export interface GroupScheduleDTO {
 
 export const getGroupSchedules = async (
   groupId: string | number
-): Promise<ApiSuccess<GroupScheduleDTO[]>> => {
+): Promise<ApiResponse<GroupScheduleDTO[]>> => {
   return apiClient
     .get(`groups/${groupId}/schedules`)
-    .json<ApiSuccess<GroupScheduleDTO[]>>();
+    .json<ApiResponse<GroupScheduleDTO[]>>();
 };

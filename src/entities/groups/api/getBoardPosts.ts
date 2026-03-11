@@ -1,13 +1,13 @@
 import { apiClient } from '@/shared/api/apiClient';
-import { ApiSuccess } from '@/shared/api/types';
+import { ApiResponse } from '@/shared/api/types';
 import { GroupPost } from '../model/types';
 
 export interface BoardPostDTO {
   postId: number;
   title: string;
   content: string;
-  authorNickname: string;
-  authorProfileImageUrl: string | null;
+  authorName: string;
+  authorImageUrl?: string;
   createdAt: string;
   commentCount: number;
   likeCount: number;
@@ -15,6 +15,8 @@ export interface BoardPostDTO {
 
 export const getBoardPosts = async (
   groupId: string | number
-): Promise<ApiSuccess<BoardPostDTO[]>> => {
-  return apiClient.get(`groups/${groupId}/posts`).json<ApiSuccess<BoardPostDTO[]>>();
+): Promise<ApiResponse<BoardPostDTO[]>> => {
+  return apiClient
+    .get(`groups/${groupId}/posts`)
+    .json<ApiResponse<BoardPostDTO[]>>();
 };
