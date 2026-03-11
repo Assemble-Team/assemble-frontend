@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from 'react';
 
+/**
+ * MSW(Mock Service Worker)를 브라우저 환경에서 활성화하기 위한 프로바이더입니다.
+ * FSD 구조에 따라 shared/lib/msw에 위치하며, 하이드레이션 에러 방지를 위해 isReady 상태를 관리합니다.
+ */
 export const MSWProvider = ({ children }: { children: React.ReactNode }) => {
   const [isReady, setIsReady] = useState(false);
 
@@ -11,16 +15,17 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }) => {
     const setup = async () => {
       try {
         if (process.env.NODE_ENV === 'development') {
-          const { initMsw } = await import('@/shared/lib/msw/init');
-          const { allHandlers } = await import('@/app/_msw/handlers'); // 여기서 핸들러 가져옴
+          // shared/lib/msw/init에서 초기화 로직을 가져옴
+          const { initMsw } = await import('./init');
+          // shared/api/mock/handlers에서 통합 핸들러를 가져옴
+          const { allHandlers } = await import('@/shared/api/mock/handlers');
 
-          await initMsw(allHandlers); // 주입!
+          await initMsw(allHandlers);
           setIsReady(true);
         }
       } catch (error) {
         console.error('[MSW] Failed to initialize:', error);
       } finally {
-        // 2. 비동기 작업이 끝난 후 상태 업데이트
         setIsReady(true);
       }
     };

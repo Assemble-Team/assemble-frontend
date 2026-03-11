@@ -6,7 +6,7 @@ export async function register() {
     process.env.NODE_ENV === 'development'
   ) {
     const { initMsw } = await import('@/shared/lib/msw/init');
-    const { allHandlers } = await import('@/app/_msw/handlers');
+    const { allHandlers } = await import('@/shared/api/mock/handlers');
 
     await initMsw(allHandlers);
 
