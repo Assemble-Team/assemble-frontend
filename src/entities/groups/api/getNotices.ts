@@ -1,4 +1,5 @@
 import { apiClient } from '@/shared/api/apiClient';
+import { ApiListResponse } from '@/shared/api/types';
 
 export interface NoticeDTO {
   id: number;
@@ -9,8 +10,8 @@ export interface NoticeDTO {
   authorName: string;
 }
 
-export const getGroupNotices = async (groupId: string) => {
+export const getGroupNotices = async (groupId: string): Promise<ApiListResponse<NoticeDTO>> => {
   return apiClient
     .get(`groups/${groupId}/notices`)
-    .json<{ list: NoticeDTO[] }>();
+    .json<ApiListResponse<NoticeDTO>>();
 };

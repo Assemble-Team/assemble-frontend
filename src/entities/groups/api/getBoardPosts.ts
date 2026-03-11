@@ -1,6 +1,5 @@
 import { apiClient } from '@/shared/api/apiClient';
-import { ApiResponse } from '@/shared/api/types';
-import { GroupPost } from '../model/types';
+import { ApiListResponse } from '@/shared/api/types';
 
 export interface BoardPostDTO {
   postId: number;
@@ -15,8 +14,6 @@ export interface BoardPostDTO {
 
 export const getBoardPosts = async (
   groupId: string | number
-): Promise<ApiResponse<BoardPostDTO[]>> => {
-  return apiClient
-    .get(`groups/${groupId}/posts`)
-    .json<ApiResponse<BoardPostDTO[]>>();
+): Promise<ApiListResponse<BoardPostDTO>> => {
+  return apiClient.get(`groups/${groupId}/posts`).json<ApiListResponse<BoardPostDTO>>();
 };

@@ -6,8 +6,8 @@ export const useBoardPosts = (groupId: string | number) => {
   return useQuery({
     queryKey: ['groups', groupId, 'posts'],
     queryFn: () => getBoardPosts(groupId),
-    select: (response) =>
-      response.result.map(
+    select: (data) =>
+      data.list.map(
         (post) =>
           ({
             id: post.postId,

@@ -9,7 +9,7 @@ export const useGroupSchedules = (groupId: string | number) => {
     queryKey: ['groups', groupId, 'schedules'],
     queryFn: () => getGroupSchedules(groupId),
     select: (data): GroupSchedule[] => {
-      return data.result.map((item: GroupScheduleDTO) => ({
+      return data.map((item: GroupScheduleDTO) => ({
         id: item.scheduleId,
         title: item.title,
         content: item.content,

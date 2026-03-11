@@ -23,7 +23,9 @@ const handleApiResponse = async (
 
   const contentType = response.headers.get('content-type');
   if (contentType && contentType.includes('application/json')) {
-    const body = (await response.json()) as ApiResponse<unknown>;
+    // response.clone()을 사용하여 원본 응답 보존
+    const clonedResponse = response.clone();
+    const body = (await clonedResponse.json()) as ApiResponse<unknown>;
 
     // 백엔드 규격상 성공이지만 비즈니스 로직 에러인 경우
     if (body.isSuccess === false) {
@@ -31,6 +33,7 @@ const handleApiResponse = async (
     }
 
     // result 필드만 담은 새로운 응답 객체 생성하여 반환
+    // 원본 응답의 메타데이터(상태코드, 헤더 등)를 최대한 보존
     return new Response(JSON.stringify(body.result), {
       status: response.status,
       statusText: response.statusText,

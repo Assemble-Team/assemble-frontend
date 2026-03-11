@@ -40,7 +40,7 @@ export const useGroupList = () => {
     queryFn: () => getGroupList(params),
     select: (data): Group[] => {
       // API 응답 구조(ApiResponse.result.list)에 맞춰 매핑 수행
-      return data.result.list.map(mapGroupListItemToModel);
+      return data.list.map(mapGroupListItemToModel);
     },
     staleTime: 60 * 1000,
   });
