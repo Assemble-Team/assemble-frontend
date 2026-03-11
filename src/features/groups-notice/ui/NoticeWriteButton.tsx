@@ -1,6 +1,7 @@
 'use client';
 
-import Button from '@/shared/ui/Button/Button';
+import { useRouter, useParams } from 'next/navigation';
+import { Button } from '@/shared/ui/Button';
 import { PenLine } from 'lucide-react';
 
 interface NoticeWriteButtonProps {
@@ -8,13 +9,22 @@ interface NoticeWriteButtonProps {
 }
 
 export const NoticeWriteButton = ({ myRole }: NoticeWriteButtonProps) => {
-  if (myRole !== 'LEADING') return null;
+  const router = useRouter();
+  const { id } = useParams();
+
+  const handleClick = () => {
+    if (myRole !== 'LEADING') {
+      alert('공지사항은 모임 방장만 작성할 수 있습니다.');
+      return;
+    }
+    router.push(`/groups/${id}/notice/create`);
+  };
 
   return (
     <Button
       variant="outline"
       className="border-brand-200 text-brand-600 hover:bg-brand-50 gap-2 rounded-full font-black"
-      onClick={() => alert('공지 작성 기능은 준비 중입니다.')}
+      onClick={handleClick}
     >
       <PenLine size={18} />
       공지 작성하기

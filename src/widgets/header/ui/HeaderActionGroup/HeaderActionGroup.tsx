@@ -1,14 +1,18 @@
 'use client';
 
-import { Search } from 'lucide-react';
 import { CreateGroupButton } from './CreateGroupButton';
 import { NotificationBell } from './NotificationBell';
 import { UserAccountDropdownMenu } from './UserAccountDropdownMenu';
 import { NavButton } from '@/shared/ui/Button';
 import { ROUTES } from '@/shared/constants/routes';
 import { useUserStore } from '@/entities/user';
+import { Search } from 'lucide-react';
 
-export function HeaderActionGroup() {
+interface HeaderActionGroupProps {
+  onSearchClick?: () => void;
+}
+
+export function HeaderActionGroup({ onSearchClick }: HeaderActionGroupProps) {
   const { isAuthenticated } = useUserStore();
 
   return (
@@ -16,6 +20,14 @@ export function HeaderActionGroup() {
       <CreateGroupButton />
 
       <div className="flex items-center gap-2 md:gap-3">
+        {/* 모바일 검색 트리거 버튼 */}
+        <button
+          onClick={onSearchClick}
+          className="flex h-10 w-10 items-center justify-center rounded-full text-slate-500 transition-colors hover:bg-slate-100 lg:hidden"
+        >
+          <Search size={20} />
+        </button>
+
         {isAuthenticated ? (
           <>
             <NotificationBell />
@@ -24,11 +36,6 @@ export function HeaderActionGroup() {
         ) : (
           <NavButton href={ROUTES.AUTH.LOGIN}>로그인</NavButton>
         )}
-
-        {/* 모바일 전용 검색 버튼 */}
-        <button className="rounded-2xl p-3 text-gray-500 transition-all hover:bg-gray-50 md:hidden">
-          <Search size={24} strokeWidth={2.5} />
-        </button>
       </div>
     </div>
   );
