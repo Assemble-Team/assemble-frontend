@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import { DialogContent, Dialog, DialogOverlay } from '@/shared/ui/Dialog';
 
-import MyLocationButton from './MyLocationButton';
-import OfflineRegionSearchBar from './OfflineRegionSearchBar';
-import OfflineRegionSearchResultList from './OfflineRegionSearchResultList';
-import OfflineRegionFilterHeader from './OfflineRegionFilterHeader';
-import RecommendedRegionList from './RecommendedRegionList';
+import { MyLocationButton } from './MyLocationButton';
+import { OfflineRegionSearchBar } from './OfflineRegionSearchBar';
+import { OfflineRegionSearchResultList } from './OfflineRegionSearchResultList';
+import { OfflineRegionFilterHeader } from './OfflineRegionFilterHeader';
+import { RecommendedRegionList } from './RecommendedRegionList';
 
 interface OfflineRegionSelectDialogProps {
   open: boolean;
@@ -15,7 +15,7 @@ interface OfflineRegionSelectDialogProps {
   onSelect: (offlineRegion: string) => void;
 }
 
-export default function OfflineRegionSelectDialog({
+export function OfflineRegionSelectDialog({
   open,
   onClose,
   onSelect,
@@ -31,7 +31,13 @@ export default function OfflineRegionSelectDialog({
 
         <div className="flex min-h-0 flex-1 flex-col p-8 pb-12">
           <div className="flex flex-col space-y-6">
-            <MyLocationButton onClick={setAddress} />
+            <MyLocationButton
+              onSuccess={(address) => {
+                onSelect(address);
+                onClose();
+              }}
+              onError={(message) => alert(message)}
+            />
             <OfflineRegionSearchBar value={query} onChange={setQuery} />
           </div>
 

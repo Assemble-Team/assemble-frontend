@@ -4,7 +4,7 @@ import { XIcon } from 'lucide-react';
 import { ReactNode } from 'react';
 import { Button } from '../Button';
 
-export default function DrawerHeader({
+export function DrawerHeader({
   title,
   onClose,
 }: {

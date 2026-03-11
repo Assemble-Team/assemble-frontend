@@ -7,7 +7,7 @@ interface LogoProps {
   href?: string;
 }
 
-export default function Logo({ width = 120, href }: LogoProps) {
+export function Logo({ width = 120, href }: LogoProps) {
   // 원본 이미지 비율이 1324:576 (약 2.3:1) 이라고 가정했을 때의 높이 계산
   const aspectRatio = 576 / 1324;
   const calculatedHeight = width * aspectRatio;

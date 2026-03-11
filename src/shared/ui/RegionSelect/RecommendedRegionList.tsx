@@ -19,7 +19,7 @@ interface RecommendedRegionListProps {
   onClickRegion: (region: string) => void;
 }
 
-export default function RecommendedRegionList({
+export function RecommendedRegionList({
   onClickRegion,
 }: RecommendedRegionListProps) {
   const [recentRegions, setRecentRegions] = useLocalStorage<string[]>(

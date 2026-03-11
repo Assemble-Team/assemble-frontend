@@ -4,7 +4,7 @@ interface OfflineRegionFilterHeaderProps {
   onClose: () => void;
 }
 
-export default function OfflineRegionFilterHeader({
+export function OfflineRegionFilterHeader({
   onClose,
 }: OfflineRegionFilterHeaderProps) {
   return (

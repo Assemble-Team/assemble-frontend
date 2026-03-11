@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/shared/lib/utils';
 import { motion } from 'framer-motion';
+import { Suspense } from 'react';
 
 interface TabItem {
   label: string;
@@ -19,7 +20,7 @@ interface TabsProps {
   searchParamKey?: string; // 쿼리 파라미터 기반으로 동작할 때 사용할 키 (예: 'category')
 }
 
-export function Tabs({ items, className, searchParamKey }: TabsProps) {
+function TabsContent({ items, className, searchParamKey }: TabsProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentParamValue = searchParamKey
@@ -68,5 +69,13 @@ export function Tabs({ items, className, searchParamKey }: TabsProps) {
         );
       })}
     </div>
+  );
+}
+
+export function Tabs(props: TabsProps) {
+  return (
+    <Suspense fallback={<div className="h-14 w-full animate-pulse bg-slate-50" />}>
+      <TabsContent {...props} />
+    </Suspense>
   );
 }

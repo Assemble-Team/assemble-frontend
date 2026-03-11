@@ -1,43 +1,59 @@
 'use client';
 
-import { NavigationIcon } from 'lucide-react';
+import { NavigationIcon, Loader2 } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/Button';
+import { useGeolocation } from '@/shared/hooks/useGeolocation';
+import { useReverseGeocoding } from '@/shared/hooks/useReverseGeocoding';
+import { useState } from 'react';
 
 interface MyLocationButtonProps {
-  onClick?: (address: string | null) => void;
+  onSuccess?: (address: string) => void;
+  onError?: (message: string) => void;
 }
 
-export default function MyLocationButton({ onClick }: MyLocationButtonProps) {
-  // const { isLoading: isLocating, handleGetLocation } = useGeolocation();
-  // const { convertCoordsToAddress, isConverting } = useReverseGeocoding();
+/**
+ * 네이버 지도 API를 사용하여 실제 내 위치 주소를 가져오는 버튼입니다.
+ */
+export function MyLocationButton({ onSuccess, onError }: MyLocationButtonProps) {
+  const { isLoading: isLocating, getPosition } = useGeolocation();
+  const { convertCoordsToAddress } = useReverseGeocoding();
+  const [isConverting, setIsConverting] = useState(false);
 
-  // const handleClick = () => {
-  //   handleGetLocation(async (coords) => {
-  //     const address = await convertCoordsToAddress(
-  //       coords.latitude,
-  //       coords.longitude
-  //     );
-  //     onClick?.(address);
-  //   });
-  // };
+  const isLoading = isLocating || isConverting;
+
+  const handleGetLocation = () => {
+    getPosition(async (coords) => {
+      try {
+        setIsConverting(true);
+        const address = await convertCoordsToAddress(coords.latitude, coords.longitude);
+        onSuccess?.(address);
+      } catch (err: any) {
+        onError?.(err.message || '주소 변환에 실패했습니다.');
+      } finally {
+        setIsConverting(false);
+      }
+    });
+  };
 
   return (
     <Button
-      // 기존 Button의 스타일을 덮어쓰거나 추가하기 위해 className 사용
+      onClick={handleGetLocation}
+      disabled={isLoading}
       className={cn(
-        'flex w-full items-center justify-center gap-3',
+        'flex w-full items-center justify-center gap-3 py-6',
         'bg-brand-50 text-brand-600 border-brand-100 rounded-3xl border',
-        'hover:bg-brand-100 transition-all active:scale-95',
-        'group disabled:opacity-70'
+        'hover:bg-brand-100 transition-all active:scale-[0.98]',
+        'group disabled:opacity-70 disabled:cursor-not-allowed'
       )}
     >
-      <NavigationIcon
-        size={24}
-        className="fill-current" // SVG 색상을 text-brand-600에 맞춤
-      />
+      {isLoading ? (
+        <Loader2 size={24} className="animate-spin" />
+      ) : (
+        <NavigationIcon size={24} className="fill-current" />
+      )}
       <span className="text-base font-black">
-        {/* {totalLoading ? '위치 찾는 중...' : '내 주변 지역으로 찾기'} */}
+        {isLoading ? '위치를 확인하는 중...' : '현재 내 위치 사용하기'}
       </span>
     </Button>
   );

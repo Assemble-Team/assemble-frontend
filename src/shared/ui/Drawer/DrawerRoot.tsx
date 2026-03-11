@@ -9,11 +9,12 @@ export interface DrawerRootProps {
   children: ReactNode;
 }
 
-export default function DrawerRoot({
+export function DrawerRoot({
   isOpen,
   onClose,
   children,
 }: DrawerRootProps) {
+
   useEffect(() => {
     if (isOpen) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = 'unset';

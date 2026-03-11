@@ -50,7 +50,7 @@ function NavButtonInner({
   );
 }
 
-export default function NavButton(props: NavButtonProps) {
+export function NavButton(props: NavButtonProps) {
   return (
     <Suspense fallback={<Button {...props} disabled />}>
       <NavButtonInner {...props} />

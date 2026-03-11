@@ -1,7 +1,7 @@
 import { cn } from '@/shared/lib/utils';
 import { ReactNode } from 'react';
 
-export default function DrawerBody({
+export function DrawerBody({
   children,
   className,
 }: {

@@ -15,7 +15,7 @@ interface DialogProps {
   children: React.ReactNode;
 }
 
-export default function Dialog({ open, onClose, children }: DialogProps) {
+export function Dialog({ open, onClose, children }: DialogProps) {
   // ESC 키로 닫기
   useEffect(() => {
     if (!open) return;

@@ -6,77 +6,80 @@ import { Group } from '../model/types';
 
 interface GroupCardProps {
   group: Group;
+  overlay?: React.ReactNode;
 }
 
-export const GroupCard = ({ group }: GroupCardProps) => {
+export const GroupCard = ({ group, overlay }: GroupCardProps) => {
   return (
     <Link
       href={ROUTES.GROUPS.DETAIL(String(group.id))}
-      className="group hover:border-brand-200 relative flex cursor-pointer flex-col overflow-hidden rounded-[2.5rem] border border-slate-100 bg-white transition-all duration-300 hover:shadow-2xl hover:shadow-slate-200/50"
+      className="group relative flex cursor-pointer flex-col gap-3 transition-all duration-300"
     >
-      {/* 이미지 섹션: 가로세로 비중 조정 및 크기 축소 */}
-      <div className="relative aspect-video w-full shrink-0 overflow-hidden">
+      {/* 이미지 섹션: 둥근 모서리는 유지하되 테두리는 제거 */}
+      <div className="relative aspect-video w-full shrink-0 overflow-hidden rounded-3xl">
         <img
           src={group.image}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           alt={group.title}
         />
-        <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-60" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent opacity-40" />
+        
+        {overlay && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
+            {overlay}
+          </div>
+        )}
+
+        <div className="absolute top-3 left-3">
+          <span className="rounded-lg bg-white/90 px-2 py-1 text-[9px] font-black tracking-widest text-slate-900 uppercase backdrop-blur-md">
+            {group.categoryLabel}
+          </span>
+        </div>
       </div>
 
-      {/* 정보 섹션 */}
-      <div className="flex flex-1 flex-col gap-5 p-6 pt-5">
-        <div className="space-y-3">
-          <h3 className="group-hover:text-brand-600 line-clamp-1 text-lg font-black tracking-tight text-slate-900 transition-colors md:text-xl">
-            {group.title}
-          </h3>
+      {/* 정보 섹션: 패딩 제거 및 텍스트 강조 */}
+      <div className="flex flex-col gap-2 px-1">
+        <h3 className="group-hover:text-brand-600 line-clamp-1 text-base font-black tracking-tight text-slate-900 transition-colors md:text-lg">
+          {group.title}
+        </h3>
 
-          {/* 뱃지 섹션: 스타일 통일 */}
-          <div className="flex flex-wrap gap-2">
-            <Badge
-              icon={<span className="text-brand-500 font-bold">#</span>}
-              label={group.categoryLabel}
-            />
-            <Badge
-              icon={
-                <ChartColumnIncreasing size={12} className="text-brand-500" />
-              }
-              label={group.levelLabel}
-            />
-            <Badge
-              icon={<MapPin size={12} className="text-brand-500" />}
-              label={group.location}
-            />
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <div className="flex items-center gap-1 text-[11px] font-bold text-slate-400">
+            <MapPin size={12} />
+            <span>{group.location}</span>
+          </div>
+          <div className="flex items-center gap-1 text-[11px] font-bold text-slate-400">
+            <Users size={12} />
+            <span>{group.participants.current}/{group.participants.max}명</span>
+          </div>
+          <div className="flex items-center gap-1 text-[11px] font-bold text-slate-400">
+            <ChartColumnIncreasing size={12} />
+            <span>{group.levelLabel}</span>
           </div>
         </div>
 
-        <div className="mt-auto flex items-center justify-between border-t border-slate-50 pt-4">
-          <div className="flex items-center gap-2">
-            <Users size={14} className="text-slate-300" />
-            <span className="text-[11px] font-black tracking-tight text-slate-500">
-              {group.participants.current}/{group.participants.max}명
-            </span>
-          </div>
-
-          {/* 하단 좋아요 버튼 위치 */}
-          <button
-            className={cn(
-              'flex items-center gap-1.5 rounded-full px-3 py-1.5 transition-all',
-              group.like.isLiked
-                ? 'bg-rose-50 text-rose-500'
-                : 'bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-500'
-            )}
-            onClick={(e) => {
-              e.preventDefault();
-              // 좋아요 로직 연동 예정
-            }}
-          >
+        <div className="mt-1 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
             <Heart
               size={14}
-              className={cn(group.like.isLiked && 'fill-rose-500')}
+              className={cn(
+                group.like.isLiked ? 'fill-rose-500 text-rose-500' : 'text-slate-300'
+              )}
             />
-            <span className="text-xs font-black">{group.like.count}</span>
-          </button>
+            <span className={cn(
+              "text-[11px] font-black",
+              group.like.isLiked ? "text-rose-500" : "text-slate-400"
+            )}>
+              {group.like.count}
+            </span>
+          </div>
+          
+          <span className={cn(
+            "text-[10px] font-black tracking-tighter uppercase",
+            group.isRecruiting ? "text-brand-600" : "text-slate-300"
+          )}>
+            {group.statusLabel}
+          </span>
         </div>
       </div>
     </Link>

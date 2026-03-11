@@ -1,4 +1,3 @@
-import Input from '@/shared/ui/Input';
 import {
   InputGroup,
   InputGroupAddon,
@@ -11,7 +10,7 @@ interface OfflineRegionSearchBarProps {
   onChange: (value: string) => void;
 }
 
-export default function OfflineRegionSearchBar({
+export function OfflineRegionSearchBar({
   value,
   onChange,
 }: OfflineRegionSearchBarProps) {

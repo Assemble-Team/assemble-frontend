@@ -1,7 +1,7 @@
 import { cn } from '@/shared/lib/utils';
 import { ReactNode } from 'react';
 
-export default function DrawerContent({
+export function DrawerContent({
   children,
   side = 'left',
   className,

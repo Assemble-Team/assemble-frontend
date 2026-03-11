@@ -1,14 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import OfflineRegionSelectDialog from './OfflineRegionSelectDialog';
+import { OfflineRegionSelectDialog } from './OfflineRegionSelectDialog';
 
 interface RegionSelectButtonProps {
   value?: string;
   onSelect: (region: string) => void;
 }
 
-export default function RegionSelectButton({
+export function RegionSelectButton({
   value,
   onSelect,
 }: RegionSelectButtonProps) {

@@ -5,7 +5,7 @@ interface DialogContentProps {
   children: React.ReactNode;
   className?: string;
 }
-export default function DialogContent({
+export function DialogContent({
   children,
   className = '',
 }: DialogContentProps) {

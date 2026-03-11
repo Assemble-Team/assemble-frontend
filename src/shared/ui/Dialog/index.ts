@@ -1,6 +1,6 @@
-export { default as Dialog } from './Dialog';
-export { default as DialogOverlay } from './DialogOverlay';
-export { default as DialogContent } from './DialogContent';
-export { default as DialogHeader } from './DialogHeader';
-export { default as DialogFooter } from './DialogFooter';
+export { Dialog } from './Dialog';
+export { DialogOverlay } from './DialogOverlay';
+export { DialogContent } from './DialogContent';
+export { DialogHeader } from './DialogHeader';
+export { DialogFooter } from './DialogFooter';
 export { DialogPortal } from './DialogPortal';

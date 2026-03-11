@@ -4,15 +4,16 @@ import { useMemo } from 'react';
 
 import { REGIONS } from '@/shared/constants/regions';
 
-interface OfflineRegionListProps {
+interface OfflineRegionSearchResultListProps {
   query?: string | null;
   onClickListItem: (offlineRegion: string) => void;
 }
 
-export default function OfflineRegionSearchResultList({
+export function OfflineRegionSearchResultList({
   query,
   onClickListItem,
-}: OfflineRegionListProps) {
+}: OfflineRegionSearchResultListProps) {
+
   const REGION_OPTIONS = REGIONS.flatMap((region) =>
     region.children.map((district) => ({
       region: region.name,
