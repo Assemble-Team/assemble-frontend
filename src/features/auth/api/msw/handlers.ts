@@ -24,7 +24,7 @@ export const authHandlers = [
       message: '요청이 성공했습니다.',
       result: {
         id: 1,
-        createdAt: new Date().toISOString(),
+        accessToken: 'mock-access-token',
       },
       timestamp: new Date().toISOString(),
     });
@@ -38,7 +38,7 @@ export const authHandlers = [
       message: '요청이 성공했습니다.',
       result: {
         id: 1,
-        createdAt: new Date().toISOString(),
+        accessToken: 'mock-access-token',
       },
       timestamp: new Date().toISOString(),
     });

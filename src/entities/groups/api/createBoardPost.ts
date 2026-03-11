@@ -1,5 +1,5 @@
 import { apiClient } from '@/shared/api/apiClient';
-import { ApiSuccess } from '@/shared/api/types';
+import { ApiResponse } from '@/shared/api/types';
 import { CreatePostRequest } from '../model/types';
 
 export interface CreatePostResponse {
@@ -9,8 +9,8 @@ export interface CreatePostResponse {
 export const createBoardPost = async (
   groupId: string | number,
   data: CreatePostRequest
-): Promise<ApiSuccess<CreatePostResponse>> => {
+): Promise<ApiResponse<CreatePostResponse>> => {
   return apiClient
     .post(`groups/${groupId}/posts`, { json: data })
-    .json<ApiSuccess<CreatePostResponse>>();
+    .json<ApiResponse<CreatePostResponse>>();
 };

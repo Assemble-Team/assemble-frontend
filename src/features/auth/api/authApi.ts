@@ -1,5 +1,5 @@
 import { apiClient } from '@/shared/api/apiClient';
-import { ApiSuccess } from '@/shared/api/types';
+import { ApiResponse } from '@/shared/api/types';
 import { SignupFormValues, LoginFormValues } from '../model/authSchema';
 
 export interface SignupResult {
@@ -7,34 +7,19 @@ export interface SignupResult {
   createdAt: string;
 }
 
-export type AuthResponse = ApiSuccess<SignupResult>;
+export interface LoginResult {
+  accessToken: string;
+  id: number;
+}
+
+export type AuthResponse = ApiResponse<SignupResult>;
 
 export const authApi = {
-  /**
-   * 회원가입 API
-   * POST /api/members/signup
-   */
-  signup: async (data: SignupFormValues): Promise<AuthResponse> => {
-    // confirmPassword는 API 서버로 보낼 필요가 없으므로 제외
-    const { confirmPassword, ...signupData } = data;
-
-    return await apiClient
-      .post('members/signup', {
-        json: signupData,
-      })
-      .json<AuthResponse>();
+  signup: async (data: SignupFormValues): Promise<ApiResponse<SignupResult>> => {
+    return apiClient.post('auth/signup', { json: data }).json<ApiResponse<SignupResult>>();
   },
 
-  /**
-   * 로그인 API
-   * POST /api/members/login
-   * (명세가 없으므로 임시 구현)
-   */
-  login: async (data: LoginFormValues): Promise<AuthResponse> => {
-    return await apiClient
-      .post('members/login', {
-        json: data,
-      })
-      .json<AuthResponse>();
+  login: async (data: LoginFormValues): Promise<ApiResponse<LoginResult>> => {
+    return apiClient.post('auth/login', { json: data }).json<ApiResponse<LoginResult>>();
   },
 };
