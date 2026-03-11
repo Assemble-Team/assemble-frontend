@@ -6,15 +6,18 @@ export type ApiResponse<T> = {
   code: string;
   message: string;
   result: T;
+  timestamp: string;
 };
 
 /**
- * 리스트 형태의 데이터를 담는 규격입니다.
+ * 리스트 형태의 데이터를 담는 규격입니다. (페이징 포함)
  */
 export type ApiListResponse<T> = {
   list: T[];
-  totalCount?: number;
-  hasNext?: boolean;
+  page: number;
+  size: number;
+  totalPages: number;
+  totalElements: number;
 };
 
 /**

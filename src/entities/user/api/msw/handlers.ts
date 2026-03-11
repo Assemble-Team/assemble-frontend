@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw';
+import { wrapResponse } from '@/shared/api/mock/utils';
 import { NotificationSettings, User } from '../../model/types';
 
 let mockProfile: User = {
@@ -19,25 +20,25 @@ let mockNotificationSettings: NotificationSettings = {
 export const userHandlers = [
   // GET /api/users/me/profile
   http.get('/api/users/me/profile', () => {
-    return HttpResponse.json(mockProfile);
+    return HttpResponse.json(wrapResponse(mockProfile));
   }),
 
   // PATCH /api/users/me/profile
   http.patch('/api/users/me/profile', async ({ request }) => {
     const data = (await request.json()) as Partial<User>;
     mockProfile = { ...mockProfile, ...data };
-    return HttpResponse.json(mockProfile);
+    return HttpResponse.json(wrapResponse(mockProfile));
   }),
 
   // GET /api/users/me/settings/notifications
   http.get('/api/users/me/settings/notifications', () => {
-    return HttpResponse.json(mockNotificationSettings);
+    return HttpResponse.json(wrapResponse(mockNotificationSettings));
   }),
 
   // PATCH /api/users/me/settings/notifications
   http.patch('/api/users/me/settings/notifications', async ({ request }) => {
     const data = (await request.json()) as Partial<NotificationSettings>;
     mockNotificationSettings = { ...mockNotificationSettings, ...data };
-    return HttpResponse.json(mockNotificationSettings);
+    return HttpResponse.json(wrapResponse(mockNotificationSettings));
   }),
 ];
