@@ -11,7 +11,7 @@ export const useGroupDetail = (id: string) => {
     queryKey: groupKeys.detail(id),
     queryFn: () => getGroupDetail(id),
     select: (data): GroupDetail => {
-      const group = data.result;
+      const group = data;
       return {
         id: group.clubId,
         title: group.name,

@@ -25,13 +25,13 @@ export default function RootLayout({ children, modal }: RootLayoutProps) {
   return (
     <html lang="ko" className={pretendard.variable}>
       <head>
-        {/* 네이버 지도 SDK (정확한 oapi 주소 사용) */}
-        <Script
+        <script
           type="text/javascript"
           src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}&submodules=geocoder`}
-          strategy="beforeInteractive"
+          defer
         />
       </head>
+
       <body>
         <Providers>
           <Header />

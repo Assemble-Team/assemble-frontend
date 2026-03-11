@@ -38,20 +38,18 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       const res = await authApi.login(data);
-      if (res.isSuccess) {
-        // 성공 시 스토어 업데이트
-        login({
-          id: res.result.id,
-          email: data.email,
-          name: '사용자', // 실제 이름 데이터가 명세에 없으므로 일단 고정
-        });
-        alert('로그인에 성공했습니다!');
+      // 성공 시 스토어 업데이트
+      login({
+        id: res.id,
+        email: data.email,
+        name: '사용자', // 실제 이름 데이터가 명세에 없으므로 일단 고정
+      });
+      alert('로그인에 성공했습니다!');
 
-        if (onSuccess) {
-          onSuccess();
-        } else {
-          router.replace(ROUTES.HOME);
-        }
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.replace(ROUTES.HOME);
       }
     } catch (error) {
       if (error instanceof ApiError) {

@@ -95,9 +95,7 @@ export const CreateGroupForm = () => {
   const onSubmit = async (data: CreateGroupFormValues) => {
     try {
       const res = await createGroup(data);
-      if (res.isSuccess) {
-        alert(`모임이 개설되었습니다! (ID: ${res.result.clubId})`);
-      }
+      alert(`모임이 개설되었습니다! (ID: ${res.clubId})`);
     } catch (error) {
       if (error instanceof ApiError) {
         alert(error.message);

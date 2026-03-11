@@ -63,16 +63,14 @@ export default function SignupForm() {
   const onSubmit = async (data: SignupFormValues) => {
     try {
       const res = await authApi.signup(data);
-      if (res.isSuccess) {
-        // 성공 시 자동 로그인 처리
-        login({
-          id: res.result.id,
-          email: data.email,
-          name: data.name,
-        });
-        alert('회원가입이 완료되었습니다!');
-        router.replace(ROUTES.HOME);
-      }
+      // 성공 시 자동 로그인 처리
+      login({
+        id: res.id,
+        email: data.email,
+        name: data.name,
+      });
+      alert('회원가입이 완료되었습니다!');
+      router.replace(ROUTES.HOME);
     } catch (error) {
       if (error instanceof ApiError) {
         alert(error.message);
