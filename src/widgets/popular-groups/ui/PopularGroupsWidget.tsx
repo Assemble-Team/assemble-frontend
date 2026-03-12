@@ -14,46 +14,28 @@ interface PopularGroupsWidgetProps {
 export function PopularGroupsWidget({ activeTab }: PopularGroupsWidgetProps) {
   const tabItems = [
     {
-      label: '🏆 명예의 전당',
+      label: '🏆 명예의 전당 (Top 5)',
       href: `${ROUTES.GROUPS.LIST}/popular?type=hall-of-fame`,
       value: 'hall-of-fame',
     },
     {
-      label: '🔥 주간 인기',
+      label: '🔥 주간 인기 (Top 5)',
       href: `${ROUTES.GROUPS.LIST}/popular?type=weekly`,
       value: 'weekly',
     },
   ];
 
   return (
-    <div className="flex flex-col gap-8 md:gap-12">
-      <section className="space-y-4 text-center md:text-left">
-        <div className="flex items-center justify-center gap-2 md:justify-start">
-          <span className="bg-brand-50 text-brand-600 ring-brand-100 rounded-full px-3 py-1 text-[10px] font-black tracking-widest uppercase ring-1">
-            Popular Groups
-          </span>
-        </div>
-        <h1 className="text-4xl font-black tracking-tight text-slate-900 md:text-5xl">
-          가장 핫한 모임 <span className="text-brand-600">인사</span>
-        </h1>
-        <p className="max-w-2xl text-lg font-medium text-slate-400">
-          {activeTab === 'hall-of-fame'
-            ? '수많은 인원이 검증한 어셈블 최고의 명예의 전당 모임들입니다.'
-            : '최근 7일간 가장 활발한 활동을 보여준 트렌디한 모임들입니다.'}
-        </p>
-      </section>
-
-      <div className="sticky top-16 z-20 -mx-4 bg-white/80 px-4 backdrop-blur-md md:top-20">
+    <div className="flex flex-col gap-4">
+      <div className="sticky top-16 z-20 -mx-4 bg-white/80 px-4 py-2 backdrop-blur-md md:top-20">
         <Tabs items={tabItems} searchParamKey="type" className="border-none" />
       </div>
 
-      <section className="relative min-h-[500px]">
-        <div className="bg-brand-50/30 absolute -top-4 -left-4 -z-10 h-64 w-64 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 -right-4 -z-10 h-64 w-64 rounded-full bg-slate-50 blur-3xl" />
+      <section className="relative min-h-[400px] pt-4">
         <RankingList type={activeTab} />
       </section>
 
-      <section className="flex flex-col items-center gap-4 rounded-[2.5rem] bg-slate-50 p-8 text-center md:p-12">
+      <section className="mt-12 flex flex-col items-center gap-4 rounded-[2.5rem] bg-slate-50 p-8 text-center md:p-10">
         <h2 className="text-xl font-black text-slate-900 md:text-2xl">
           당신의 모임도 명예의 전당에 오를 수 있습니다
         </h2>
