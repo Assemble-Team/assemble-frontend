@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 
 const ProfileEditForm = dynamic(
-  () => import('./ProfileEditForm').then((mod) => mod.ProfileEditForm),
+  () => import('@/features/mypage').then((mod) => mod.ProfileEditForm),
   { ssr: false }
 );
 
