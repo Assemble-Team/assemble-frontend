@@ -1,9 +1,5 @@
-import { MyCommentList } from '@/widgets/mypage';
+import { MyCommentsPage } from '@/_pages/mypage/activities';
 
-export default function MyCommentsPage() {
-  return (
-    <div className="pt-4">
-      <MyCommentList />
-    </div>
-  );
+export default function Page() {
+  return <MyCommentsPage />;
 }

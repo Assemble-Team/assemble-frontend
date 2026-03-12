@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { NoticeCreateFeature } from '@/features/groups-notice/ui/NoticeCreateFeature';
+import { NoticeCreateFeature } from '@/features/groups-notice';
 
 /**
  * 모임 공지 작성 페이지입니다.

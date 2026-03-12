@@ -23,12 +23,12 @@ FSD는 프론트엔드 애플리케이션을 **역할과 책임 단위로 분리
 
 ```text
 src/
-├── app/                # Next.js App Router
-├── shared/             # 전역 공통 자원
-├── entities/           # 도메인 엔티티
+├── app/                # Next.js App Router (Routing, Layout, Metadata)
+├── _pages/             # 페이지 단위 컴포넌트 조합 (Business Logic Composition)
+├── widgets/            # 페이지를 구성하는 독립적인 UI 블록
 ├── features/           # 사용자 행동 단위 기능
-├── widgets/            # 페이지를 구성하는 UI 블록
-└── pages/ (선택)       # 라우트 단위 페이지 컴포넌트
+├── entities/           # 도메인 엔티티 (Data, Model, UI)
+└── shared/             # 전역 공통 자원 (UI, Hooks, Lib, Constants)
 ```
 
 ---
@@ -42,7 +42,7 @@ src/
 #### 포함 대상
 
 - 공통 UI 컴포넌트 (Button, Modal 등)
-- 공통 훅
+- 공통 훅 (useGeolocation, useLocalStorage 등)
 - 유틸 함수
 - 전역 타입
 - 디자인 토큰
@@ -70,28 +70,27 @@ shared/
 #### 예시 엔티티
 
 - User
-- Post
-- Product
-- Reservation
+- Group
+- Activity
 
 ```text
 entities/
 └── user/
     ├── model/
     ├── ui/
-    └── types.ts
+    └── api/
 ```
 
 #### 역할
 
 - 도메인 데이터 구조 정의
-- 도메인 단위 UI 제공
+- 도메인 단위 UI 제공 (예: UserAvatar, GroupCard)
 - 도메인 관련 로직 캡슐화
 
 #### 규칙
 
-- 다른 entities 참조 가능
-- features, widgets에서 사용 가능
+- 다른 entities 참조 가능 (단, 순환 참조 주의)
+- features, widgets, _pages에서 사용 가능
 
 ---
 
@@ -101,23 +100,23 @@ entities/
 
 #### 예시
 
-- 로그인
-- 회원가입
-- 게시글 작성
-- 좋아요 클릭
+- auth (Login, Signup)
+- groups-join
+- groups-like
+- sidebar-toggle
 
 ```text
 features/
-└── auth/login/
+└── groups-join/
     ├── ui/
     ├── model/
-    └── api.ts
+    └── api/
 ```
 
 #### 역할
 
 - 하나의 사용자 액션을 완성
-- entities를 조합하여 기능 구현
+- entities를 조합하여 비즈니스 가치가 있는 기능 구현
 
 #### 규칙
 
@@ -128,13 +127,14 @@ features/
 
 ### 3.4 widgets
 
-**페이지를 구성하는 UI 블록** 단위 레이어이다.
+**페이지를 구성하는 독립적인 UI 블록** 단위 레이어이다.
 
 #### 예시
 
-- Header
-- Sidebar
-- FeedList
+- header
+- sidebar
+- popular-groups
+- ranking-list
 
 ```text
 widgets/
@@ -145,48 +145,67 @@ widgets/
 
 #### 역할
 
-- 여러 feature와 entity를 조합
-- 페이지 레벨에서 바로 사용 가능
+- 여러 feature와 entity를 조합하여 완성된 UI 블록 제공
+- 페이지 레벨에서 바로 사용 가능한 큰 단위의 컴포넌트
 
 ---
 
-### 3.5 app (Next.js)
+### 3.5 _pages
+
+**페이지 단위의 컴포넌트 조합**을 담당하는 레이어이다. Next.js의 `app` 디렉토리와 충돌을 피하기 위해 `_pages`로 명명한다.
+
+#### 역할
+
+- 실제 서비스 페이지의 완성된 모습 정의
+- 여러 widgets, features, entities를 조합하여 페이지 전체 비즈니스 로직 조율
+- Next.js의 `app` 내 각 라우트 파일에서 이 레이어의 컴포넌트를 호출하여 사용
+
+#### 규칙
+
+- app 레이어를 제외한 모든 레이어 참조 가능
+- 파일 구조는 대략적으로 `app` 디렉토리의 구조를 따라가되, 실제 라우팅 기능은 없음
+
+---
+
+### 3.6 app (Next.js)
 
 Next.js App Router 전용 레이어이다.
 
 #### 역할
 
-- 라우팅
-- 레이아웃 구성
-- 페이지 단위 컴포넌트
+- **Routing**: URL 구조 정의
+- **Layout**: 페이지 레이아웃 및 Suspense/Error Boundary 설정
+- **Metadata**: SEO 및 페이지 메타데이터 설정
+- **Server Actions/Functions**: 서버 전용 로직 처리
 
 #### 규칙
 
 - 비즈니스 로직 최소화
-- widgets 중심으로 페이지 구성
+- `_pages` 레이어의 컴포넌트를 import하여 렌더링하는 역할에 집중
 
 ---
 
 ## 4. 레이어 간 의존성 규칙
 
 ```text
-shared ← entities ← features ← widgets ← app
+shared ← entities ← features ← widgets ← _pages ← app
 ```
 
-- 위 방향으로만 import 가능
-- 역방향 참조 금지
+- 위 방향으로만 import 가능 (상위 레이어는 하위 레이어를 알 수 있음)
+- 역방향 참조 금지 (하위 레이어는 상위 레이어를 참조할 수 없음)
 
 ---
 
 ## 5. 언제 어디에 코드를 둬야 할까?
 
-| 상황             | 위치                |
-| ---------------- | ------------------- |
-| 단순 버튼 UI     | shared/ui           |
-| 사용자 정보 표시 | entities/user       |
-| 로그인 기능      | features/auth/login |
-| 헤더 전체 구성   | widgets/header      |
-| 라우트 페이지    | app/                |
+| 상황                     | 위치                |
+| ------------------------ | ------------------- |
+| 단순 버튼 UI             | shared/ui           |
+| 사용자 정보 표시         | entities/user       |
+| 로그인 기능              | features/auth       |
+| 헤더 전체 구성           | widgets/header      |
+| 홈 페이지 전체 조합      | _pages/home         |
+| URL 정의 (page.tsx)      | app/page.tsx        |
 
 ---
 
@@ -194,7 +213,8 @@ shared ← entities ← features ← widgets ← app
 
 - 기능 추가 시 feature부터 고려
 - 공용 가능성 있으면 shared로 이동
-- 애매하면 더 상위 레이어에 두지 말 것
+- 페이지 구성 시 `app`은 최소한의 래퍼 역할만 수행하고 `_pages`에서 실제 UI를 조합
+- 레이어 위반(역참조)이 발생하지 않도록 주의
 
 ---
 

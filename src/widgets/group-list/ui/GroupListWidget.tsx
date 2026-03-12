@@ -8,8 +8,9 @@ import {
   GroupSortOrder,
 } from '@/features/groups-filter';
 import { GroupList } from '@/entities/groups/ui/GroupList';
-import { GroupSearchResultHeader } from '@/entities/groups/ui/GroupSearchResultHeader';
+import { GroupSearchResultHeader } from './GroupSearchResultHeader';
 import { useSearchParams } from 'next/navigation';
+import { AsyncBoundary } from '@/shared/ui/AsyncBoundary';
 
 /**
  * 모임 목록 페이지의 핵심 컨텐츠를 담당하는 위젯입니다.
@@ -43,8 +44,21 @@ export function GroupListWidget() {
       {/* 검색 결과 헤더 (검색어 있을 때만) */}
       {hasQuery && <GroupSearchResultHeader />}
 
-      {/* 리스트 결과 섹션 */}
-      <GroupList />
+      {/* 리스트 결과 섹션 - AsyncBoundary 적용 */}
+      <AsyncBoundary
+        loadingFallback={
+          <div className="grid grid-cols-1 gap-8 px-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {[...Array(10)].map((_, i) => (
+              <div
+                key={i}
+                className="aspect-[4/5] animate-pulse rounded-[2.5rem] bg-slate-100"
+              />
+            ))}
+          </div>
+        }
+      >
+        <GroupList />
+      </AsyncBoundary>
     </div>
   );
 }

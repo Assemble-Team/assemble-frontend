@@ -1,4 +1,4 @@
-import { GroupChat } from '@/features/groups-chat/ui/GroupChat.client';
+import { GroupChat } from '@/widgets/group-chat/ui/GroupChat.client';
 
 export default function GroupChatPage() {
   return <GroupChat />;

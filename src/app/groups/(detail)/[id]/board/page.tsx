@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
 const GroupBoard = dynamic(() =>
-  import('@/features/groups-board').then((mod) => mod.GroupBoard)
+  import('@/widgets/group-board').then((mod) => mod.GroupBoard)
 );
 
 export default async function GroupBoardPage(props: {

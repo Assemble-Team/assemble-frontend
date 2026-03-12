@@ -1,9 +1,5 @@
-import { NotificationSettings } from '@/widgets/mypage';
+import { NotificationSettingsPage } from '@/_pages/mypage/settings';
 
-export default function NotificationSettingsPage() {
-  return (
-    <div>
-      <NotificationSettings />
-    </div>
-  );
+export default function Page() {
+  return <NotificationSettingsPage />;
 }

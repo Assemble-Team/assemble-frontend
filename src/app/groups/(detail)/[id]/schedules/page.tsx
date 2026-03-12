@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
 const GroupSchedules = dynamic(() =>
-  import('@/features/groups-schedules').then((mod) => mod.GroupSchedules)
+  import('@/widgets/group-schedules').then((mod) => mod.GroupSchedules)
 );
 
 export default async function GroupSchedulesPage(props: {

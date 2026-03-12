@@ -75,11 +75,22 @@ const afterResponseRetry = async (
 };
 
 const beforeError: BeforeErrorHook = async (error) => {
-  const body = (await error.response
-    .json()
-    .catch(() => ({}))) as { message?: string };
-  (error as Error).message =
-    body.message ?? '알 수 없는 오류가 발생했습니다.';
+  // 네트워크 에러 (백엔드 서버 미배포 또는 오프라인) 처리
+  if (error.name === 'TypeError' && error.message.includes('fetch')) {
+    (error as Error).message =
+      '백엔드 서버에 연결할 수 없습니다. 서버가 아직 배포되지 않았거나 점검 중일 수 있습니다.';
+    return error;
+  }
+
+  try {
+    const body = (await error.response
+      .json()
+      .catch(() => ({}))) as { message?: string };
+    (error as Error).message =
+      body.message ?? '알 수 없는 오류가 발생했습니다.';
+  } catch (e) {
+    (error as Error).message = '응답을 처리하는 중 오류가 발생했습니다.';
+  }
   return error;
 };
 

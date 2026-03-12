@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
 const GroupManage = dynamic(() =>
-  import('@/features/groups-manage').then((mod) => mod.GroupManage)
+  import('@/widgets/group-manage').then((mod) => mod.GroupManage)
 );
 
 export default async function GroupManagePage(props: {

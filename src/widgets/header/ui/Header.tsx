@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from 'react';
 import { Logo } from '@/shared/ui/Logo';
-import { GroupSearchBar } from '@/features/groups-search/ui/GroupSearchBar';
+import { GroupSearchBar } from '@/features/groups-search';
 import { SidebarTrigger } from '@/features/sidebar-toggle';
 import { ROUTES } from '@/shared/constants/routes';
 import { HeaderActionGroup } from './HeaderActionGroup/HeaderActionGroup';

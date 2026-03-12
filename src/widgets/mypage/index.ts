@@ -1,4 +1,4 @@
-export { ProfileSummaryCard } from './ProfileSummaryCard';
+export { ProfileSummaryCard } from '@/entities/user/ui/ProfileSummaryCard';
 export { RecentScheduleList } from './RecentScheduleList.client';
 export { FavoriteGroupsSlider } from './FavoriteGroupsSlider.client';
 export { ActivityFeed } from './ActivityFeed.client';
@@ -8,4 +8,4 @@ export { PendingGroupList } from './PendingGroupList.client';
 export { MyPostList } from './MyPostList.client';
 export { MyCommentList } from './MyCommentList.client';
 export { ProfileEditForm } from './ProfileEditForm.client';
-export { NotificationSettings } from './NotificationSettings.client';
+export { NotificationSettings } from '@/features/mypage/ui/NotificationSettings.client';

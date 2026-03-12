@@ -1,5 +1,5 @@
-import { MyPageDashboardWidget } from '@/widgets/mypage/MyPageDashboardWidget';
+import { MyPage } from '@/_pages/mypage';
 
-export default function MyPageHome() {
-  return <MyPageDashboardWidget />;
+export default function Page() {
+  return <MyPage />;
 }

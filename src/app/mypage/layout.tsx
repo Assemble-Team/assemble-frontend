@@ -1,4 +1,4 @@
-import { MyPageSidebar } from '@/widgets/mypage-sidebar/ui/MyPageSidebar';
+import { MyPageSidebar } from '@/widgets/mypage-sidebar';
 
 export default function MyPageLayout({
   children,

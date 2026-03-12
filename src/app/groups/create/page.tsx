@@ -1,9 +1,5 @@
-import { CreateGroupForm } from '@/features/groups-create/ui/CreateGroupForm';
+import { GroupCreatePage } from '@/_pages/groups/create';
 
-export default function GroupCreatePage() {
-  return (
-    <>
-      <CreateGroupForm />
-    </>
-  );
+export default function Page() {
+  return <GroupCreatePage />;
 }

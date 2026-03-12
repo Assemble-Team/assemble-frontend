@@ -1,7 +1,7 @@
 'use client';
 
-import { LikeButton } from '@/features/groups-like/ui/LikeButton';
-import { JoinGroupButton } from '@/features/groups-join/ui/JoinGroupButton';
+import { LikeButton } from '@/features/groups-like';
+import { JoinGroupButton } from '@/features/groups-join';
 import { GroupDetail } from '@/entities/groups/model/types';
 
 interface GroupFixedActionBarProps {

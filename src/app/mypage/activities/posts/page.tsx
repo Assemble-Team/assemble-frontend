@@ -1,9 +1,5 @@
-import { MyPostList } from '@/widgets/mypage';
+import { MyPostsPage } from '@/_pages/mypage/activities';
 
-export default function MyPostsPage() {
-  return (
-    <div className="pt-4">
-      <MyPostList />
-    </div>
-  );
+export default function Page() {
+  return <MyPostsPage />;
 }

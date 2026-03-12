@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
 const GroupMembers = dynamic(() =>
-  import('@/features/groups-members').then((mod) => mod.GroupMembers)
+  import('@/widgets/group-members').then((mod) => mod.GroupMembers)
 );
 
 export default async function GroupMembersPage(props: {

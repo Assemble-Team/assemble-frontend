@@ -1,9 +1,9 @@
 'use client';
 
 import { useGroupNotices } from '@/entities/groups/api/useGroupNotices';
-import { NoticeCard } from './NoticeCard';
+import { NoticeCard } from '@/entities/groups/ui/NoticeCard';
+
 import { Megaphone } from 'lucide-react';
-import { Button } from '@/shared/ui/Button';
 
 interface NoticeListProps {
   groupId: string;

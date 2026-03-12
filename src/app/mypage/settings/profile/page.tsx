@@ -1,9 +1,5 @@
-import { ProfileEditForm } from '@/widgets/mypage';
+import { ProfilePage } from '@/_pages/mypage/settings';
 
-export default function ProfileSettingsPage() {
-  return (
-    <div>
-      <ProfileEditForm />
-    </div>
-  );
+export default function Page() {
+  return <ProfilePage />;
 }
