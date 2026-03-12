@@ -34,7 +34,11 @@ const CATEGORY_LABELS: Record<string, string> = {
   CULTURE_ART: '문화/예술',
 };
 
-export default function SignupForm() {
+interface SignupFormProps {
+  onSuccess?: () => void;
+}
+
+export default function SignupForm({ onSuccess }: SignupFormProps) {
   const router = useRouter();
   const login = useUserStore((state) => state.login);
   const {
@@ -70,7 +74,12 @@ export default function SignupForm() {
         name: data.name,
       });
       alert('회원가입이 완료되었습니다!');
-      router.replace(ROUTES.HOME);
+      
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.replace(ROUTES.HOME);
+      }
     } catch (error) {
       if (error instanceof ApiError) {
         alert(error.message);

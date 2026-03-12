@@ -19,7 +19,11 @@ import {
   FindPasswordFormValues,
 } from '../model/authSchema';
 
-export default function FindPasswordForm() {
+interface FindPasswordFormProps {
+  onSuccess?: () => void;
+}
+
+export default function FindPasswordForm({ onSuccess }: FindPasswordFormProps) {
   const {
     register,
     handleSubmit,
@@ -33,6 +37,10 @@ export default function FindPasswordForm() {
       // 실제 API 연동 시 authApi.findPassword(data) 호출 예정
       console.log('Find password for:', data.email);
       alert('재설정 링크가 이메일로 발송되었습니다.');
+      
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (error) {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
