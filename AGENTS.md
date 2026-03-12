@@ -1,206 +1,72 @@
-# AGENTS.md — AI 에이전트 지침서
+# AGENTS.md — AI 에이전트 통합 지침서
 
-이 파일은 이 프로젝트에서 작업하는 AI 에이전트(Antigravity 등)가 항상 자동으로 읽는 파일입니다. 코드 작성, 리뷰, 리팩토링 시 아래의 모든 가이드라인을 반드시 따르세요.
+이 파일은 이 프로젝트에서 작업하는 AI 에이전트(Gemini CLI 등)가 항상 자동으로 읽는 **최상위 지침서**입니다. 상세한 기술적 구현 가이드는 각 섹션에 연결된 **전문가 Skill**을 반드시 참조하세요.
 
-## 표준 개발 워크플로우 (Issue-based Workflow)
+## 1. 표준 개발 워크플로우 (Issue-based Workflow)
 
 기능 구현 또는 버그 수정 요청 시, 에이전트는 반드시 다음 단계를 자율적으로 순차 수행한다:
 
-1.  **이슈 생성:** GitHub Issue를 먼저 생성하여 작업 단위를 명확히 한다. (`gh issue create` 또는 도구 사용)
-2.  **브랜치 생성:** `feat/#이슈번호-기능명` 또는 `fix/#이슈번호-버그명` 형식으로 브랜치를 생성하고 체크아웃한다.
-3.  **단위 커밋:** 기능을 구현하며 논리적 단위로 커밋을 나눈다. **단, 모든 커밋을 수행하기 전에는 반드시 변경 사항을 사용자에게 브리핑하고 명시적인 검토 및 승인을 받아야 한다.** (커밋 메시지는 한글 사용)
-4.  **빌드 및 검증:** `pnpm build`를 통해 최종 결과물에 이상이 없는지 확인한다.
-5.  **PR 생성:** 작업 완료 후 PR 템플릿에 맞춰 풀 리퀘스트를 생성한다.
+1.  **이슈 생성**: [GitHub 워크플로우 강화](.agents/skills/github-workflow/SKILL.md)에 따라 이슈를 생성하여 작업 단위를 명확히 한다.
+2.  **병렬 개발 (선택)**: 사용자가 요청한 경우 [Git Worktree 병렬 개발](.agents/skills/git-worktree/SKILL.md)을 활용한다.
+3.  **브랜치 생성**: `feat/#이슈번호-기능명` 또는 `fix/#이슈번호-버그명` 형식으로 브랜치를 생성한다.
+4.  **단위 커밋**: [커밋 컨벤션](.agents/skills/commit-convention/SKILL.md)에 따라 논리적 단위로 커밋하며, 사전에 사용자 승인을 받는다.
+5.  **검증**: [코드 수정 및 검증 절차](.agents/skills/testing-verification/SKILL.md)에 따라 타입 체크, 린트, 빌드를 수행한다.
+6.  **PR 생성**: 작업 완료 후 PR 템플릿에 맞춰 풀 리퀘스트를 생성한다.
 
 ---
 
-## API 타입 관리 전략
+## 2. 필수 전문가 Skills (반드시 참조)
 
-API 관련 타입은 성격에 따라 3단계로 분리하여 관리한다:
+작업의 성격에 따라 아래 상세 가이드를 활성화하여 적용하세요.
+### 아키텍처 및 도메인 설계
+- **FSD 아키텍처 가이드** → [.agents/skills/fsd-architecture/SKILL.md](.agents/skills/fsd-architecture/SKILL.md)
+- **고급 FSD & 클린 아키텍처** → [.agents/skills/advanced-fsd-clean/SKILL.md](.agents/skills/advanced-fsd-clean/SKILL.md)
+- **API 설계 및 타입 관리** → [.agents/skills/api-strategy/SKILL.md](.agents/skills/api-strategy/SKILL.md)
+- **코드 품질 & 응집도 관리** → [.agents/skills/code-quality/SKILL.md](.agents/skills/code-quality/SKILL.md)
 
-1.  **공통 응답 래퍼 (`shared/api/types.ts`):** 서버 공통 응답 규격 정의 (`ApiResponse<T>`).
-2.  **DTO (Data Transfer Object):** 서버에서 내려오는 날것의 데이터 타입. 백엔드 명세와 1:1 일치시킨다. (`entities/[slice]/api/[name].dto.ts`)
-3.  **Frontend Model:** UI에서 실제 사용하는 가공된 데이터 타입. 컴포넌트는 이 타입만 참조한다. (`entities/[slice]/model/types.ts`)
+### 기술 스택 및 컨벤션
+- **Next.js 16 & React 19 마스터리** → [.agents/skills/next-react-mastery/SKILL.md](.agents/skills/next-react-mastery/SKILL.md)
+- **코딩 컨벤션 & 네이밍** → [.agents/skills/coding-conventions/SKILL.md](.agents/skills/coding-conventions/SKILL.md)
+- **렌더링 & 인증 전략** → [.agents/skills/rendering-auth/SKILL.md](.agents/skills/rendering-auth/SKILL.md)
+- **UI/UX 일관성 & 스타일링** → [.agents/skills/ui-ux-consistency/SKILL.md](.agents/skills/ui-ux-consistency/SKILL.md)
+- **성능 최적화 & Core Web Vitals** → [.agents/skills/performance-cwv/SKILL.md](.agents/skills/performance-cwv/SKILL.md)
+- **보안 및 개인정보 보호 표준** → [.agents/skills/security-privacy/SKILL.md](.agents/skills/security-privacy/SKILL.md)
+- **상태 관리 전략** → [.agents/skills/state-management/SKILL.md](.agents/skills/state-management/SKILL.md)
+- **고급 TanStack Query 전략** → [.agents/skills/advanced-tanstack-query/SKILL.md](.agents/skills/advanced-tanstack-query/SKILL.md)
+- **고급 Zustand 운영 전략** → [.agents/skills/advanced-zustand/SKILL.md](.agents/skills/advanced-zustand/SKILL.md)
+...
+- **에러 및 로딩 처리 전략** → [.agents/skills/error-loading-strategy/SKILL.md](.agents/skills/error-loading-strategy/SKILL.md)
+- **폼 & 유효성 검사 전략** → [.agents/skills/form-validation-strategy/SKILL.md](.agents/skills/form-validation-strategy/SKILL.md)
+- **API 모킹 전략 (MSW)** → [.agents/skills/api-mocking-strategy/SKILL.md](.agents/skills/api-mocking-strategy/SKILL.md)
+- **SEO & 메타데이터 전략** → [.agents/skills/seo-metadata-strategy/SKILL.md](.agents/skills/seo-metadata-strategy/SKILL.md)
+- **테스트 작성 전략 (Testing)** → [.agents/skills/testing-strategy/SKILL.md](.agents/skills/testing-strategy/SKILL.md)
+- **문서화 표준 (Documentation)** → [.agents/skills/documentation-standard/SKILL.md](.agents/skills/documentation-standard/SKILL.md)
+- **애니메이션 전략 (Animation)** → [.agents/skills/animation-strategy/SKILL.md](.agents/skills/animation-strategy/SKILL.md)
+- **에셋 관리 전략 (Asset)** → [.agents/skills/asset-management/SKILL.md](.agents/skills/asset-management/SKILL.md)
+- **GitHub 워크플로우 강화 (PR)** → [.agents/skills/github-workflow/SKILL.md](.agents/skills/github-workflow/SKILL.md)
 
-- **매핑 원칙:** DTO를 Model로 변환하는 로직은 커스텀 훅(`useQuery`)의 `select` 옵션에서 수행한다.
-- **네이밍 규칙:** 서버 데이터는 `DTO` 접미사를 붙이고, 프론트엔드 모델은 깔끔한 명칭을 사용한다. (예: `GroupDTO` -> `Group`)
-
----
-
-## 필수 Skills (항상 참조)
-
-작업 시 아래 skill 가이드를 반드시 읽고 적용하세요:
-
-- Next.js 모범 사례 → `.agents/skills/next-best-practices/SKILL.md`
-- Vercel React 모범 사례 → `.agents/skills/vercel-react-best-practices/SKILL.md`
-
----
-
-## 프로젝트 개요
-
-| 항목            | 내용                            |
-| --------------- | ------------------------------- |
-| 프레임워크      | Next.js 16 (App Router)         |
-| React           | React 19                        |
-| 언어            | TypeScript                      |
-| 패키지 매니저   | pnpm                            |
-| 스타일링        | Tailwind CSS v4                 |
-| 전역 상태       | Zustand                         |
-| 서버 상태       | TanStack Query (React Query v5) |
-| 폼              | React Hook Form + Zod           |
-| HTTP 클라이언트 | ky                              |
-| 아이콘          | lucide-react                    |
-| API 모킹        | MSW v2                          |
-| 코드 품질       | ESLint + Prettier               |
+### 외부 베스트 프랙티스
+- **Next.js 모범 사례** → [.agents/skills/next-best-practices/SKILL.md](.agents/skills/next-best-practices/SKILL.md)
+- **Vercel React 모범 사례** → [.agents/skills/vercel-react-best-practices/SKILL.md](.agents/skills/vercel-react-best-practices/SKILL.md)
 
 ---
 
-## 아키텍처 (Feature-Sliced Design)
+## 3. 프로젝트 기술 스택 요약
 
-`src/`
-
-- `app/` # Next.js App Router (pages, layouts, 인터셉팅 라우트)
-- `widgets/` # 복합 UI 블록 (예: Header, Sidebar)
-- `features/` # 사용자 기능 단위 (예: 로그인, 회원가입)
-- `entities/` # 비즈니스 엔티티 (예: user, group)
-- `shared/` # 공통 유틸, UI 컴포넌트, 타입
-
-### FSD 규칙
-
-1.  **임포트 방향:** `app` → `widgets` → `features` → `entities` → `shared`
-2.  **슬라이스 간 교차 임포트 금지:** 예) features끼리 서로 임포트 불가
-3.  **각 슬라이스는 반드시 `index.ts` 를 통해 퍼블릭 API 제공**
+| 항목 | 내용 |
+| :--- | :--- |
+| 프레임워크 | Next.js 16 (App Router) / React 19 |
+| 패키지 매니저 | pnpm |
+| 스타일링 | Tailwind CSS v4 |
+| 상태 관리 | Zustand (Global) / TanStack Query (Server) |
+| HTTP / API | ky / MSW v2 |
+| 폼 / 검증 | React Hook Form / Zod |
 
 ---
 
-## 렌더링 전략
+## 4. 핵심 준수 사항
 
-### 전략 선택 기준
-
-SEO 필요 여부가 1차 기준, 데이터 변경 주기가 2차 기준이다.
-
-| 전략    | 조건                             | 예시 페이지                    |
-| ------- | -------------------------------- | ------------------------------ |
-| **SSG** | SEO 필요 + 데이터 거의 안 바뀜   | 홈페이지, 약관, 마케팅 페이지  |
-| **ISR** | SEO 필요 + 주기적 갱신 필요      | 모임 리스트 (`revalidate: 60`) |
-| **SSR** | SEO 필요 + 요청 시점 데이터 필요 | 개인화 피드, 검색 결과         |
-| **CSR** | SEO 불필요 (인증 게이트 뒤)      | 마이페이지, 모임 관리, 설정    |
-
-**원칙:** 인증이 필요한 페이지는 기본적으로 CSR. SSR은 SEO가 진짜 필요한 페이지에만 선택적으로 적용한다.
-
-### TanStack Query 렌더링 전략
-
-`useSuspenseQuery`는 렌더링 전략과 무관하다. SSR 여부는 서버 컴포넌트에서 `prefetchQuery` 호출 여부로 결정된다.
-
-| 조합                                   | 초기 HTML         | 동작          |
-| -------------------------------------- | ----------------- | ------------- |
-| `prefetchQuery` O + `useSuspenseQuery` | 데이터 포함       | SSR hydration |
-| `prefetchQuery` X + `useSuspenseQuery` | Suspense fallback | CSR fetch     |
-
----
-
-## 인증 전략
-
-### 토큰 저장 전략
-
-| 토큰            | 저장 위치      | 이유                      |
-| --------------- | -------------- | ------------------------- |
-| `refresh_token` | httpOnly 쿠키  | XSS 방어, 서버에서만 접근 |
-| `access_token`  | Zustand 메모리 | SSR 불필요, 구현 단순     |
-
-- **localStorage 저장 금지** — XSS 취약
-- 공개 페이지(홈, 모임 리스트)는 SSG/ISR이므로 토큰 불필요
-- 인증 페이지는 CSR이므로 메모리 토큰으로 충분
-
-### BFF Route Handler (3개만 구현)
-
-1.  `/api/auth/login` → Auth 서버 호출 후 `refresh_token` 쿠키 발급 + `access_token` 반환
-2.  `/api/auth/refresh` → `refresh_token` 쿠키로 `access_token` 재발급
-3.  `/api/auth/logout` → `refresh_token` 쿠키 삭제
-
-### 앱 초기화 시 silent refresh
-
-`useEffect`에서 `/api/auth/refresh` 호출을 통해 새로고침 시에도 로그인 상태 유지.
-
----
-
-## 핵심 패턴
-
-### 1. Error Boundary 패턴 (Suspense와 세트)
-
-`useSuspenseQuery`를 쓰는 곳엔 반드시 **`AsyncBoundary`**를 함께 배치한다. 둘 중 하나만 쓰는 것은 금지.
-(프로젝트 내 `src/shared/ui/AsyncBoundary.tsx` 사용)
-
-### 2. Query Key Factory 패턴
-
-queryKey를 문자열로 흩어서 쓰지 않는다. 엔티티별로 팩토리를 만들어 중앙 관리한다.
-팩토리는 해당 엔티티 슬라이스(`entities/`)에 위치하며, `as const`로 타입 추론을 보장한다.
-
-### 3. ky 인터셉터 패턴 (토큰 주입 + 갱신 + 에러 처리)
-
-`ky` 인스턴스는 `shared/api/apiClient.ts`에서 단일 인스턴스로 관리한다. 직접 `ky` import 금지.
-
-- `beforeRequest`에서 Zustand 메모리의 `access_token`을 Authorization 헤더에 주입
-- 401 발생 시 `/api/auth/refresh` 호출 후 원래 요청 1회 재시도
-- refresh 실패 시 토큰 초기화 후 로그인 리다이렉트
-- 에러 메시지는 `beforeError`에서 표준화 — 컴포넌트에서 별도 파싱 금지
-
----
-
-## 핵심 컨벤션
-
-### Next.js / React
-
-- **기본적으로 Server Component 사용**, `'use client'`는 꼭 필요한 경우에만
-- 이미지는 반드시 **`next/image`** 사용 (`<img>` 태그 금지)
-- 폰트는 반드시 **`next/font`** 사용
-- 내부 링크는 반드시 **`next/link`** 사용
-- **무거운 클라이언트 컴포넌트는 `next/dynamic` 으로 코드 스플리팅**
-- **Next.js 15+ Dynamic Import 규칙:** 서버 컴포넌트(Page 등)에서 `ssr: false`를 직접 사용할 수 없습니다. 반드시 별도의 클라이언트 컴포넌트 파일(`.client.tsx`)을 만들어 `dynamic` 선언을 옮긴 후, 서버 컴포넌트에서 이를 임포트하여 사용하세요.
-- 병렬 라우트 슬롯에는 반드시 **`default.tsx`** 제공
-
-### TypeScript
-
-- **`any` 사용 금지** — `unknown` 또는 명시적 타입 사용
-- 객체 타입은 `interface`보다 **`type`** 선호
-- 함수 반환 타입은 명시적으로 선언
-
-### 폼
-
-- **React Hook Form + Zod** 스키마 검증 조합 사용
-- `@hookform/resolvers/zod` 로 스키마 연결
-
-### 상태 관리
-
-- 전역 클라이언트 상태 → **Zustand**
-- 서버 상태 → **TanStack Query** (`useEffect`에서 직접 fetch 금지)
-
-### 스타일링
-
-- **Tailwind CSS v4** 유틸리티 클래스 사용
-- 조건부 클래스 병합은 `clsx` + `tailwind-merge` 조합의 `cn()` 유틸 사용
-- 모바일 퍼스트 반응형 디자인 원칙 준수
-
----
-
-## 성능 규칙 (Vercel Skills 핵심 요약)
-
-- **데이터 워터폴 방지**: 독립적인 fetch는 `Promise.all()` 로 병렬 처리
-- **`'use client'` 최소화**: 클라이언트 컴포넌트는 가능한 한 깊은 트리에 배치
-- **배럴 파일 임포트 지양**: 소스 파일에서 직접 임포트
-- **`React.cache()` 활용**: Server Component 내 요청별 중복 제거
-- **`Suspense` 경계 활용**: 스트리밍 및 로딩 상태 처리
-- **`next/dynamic` 활용**: 무거운 컴포넌트 코드 스플리팅
-
----
-
-## 파일 네이밍 컨벤션
-
-| 종류              | 규칙                     | 예시                                  |
-| ----------------- | ------------------------ | ------------------------------------- |
-| 컴포넌트          | PascalCase               | `LoginForm.tsx`                       |
-| 훅                | camelCase + `use` 접두사 | `useAuthStore.ts`                     |
-| 유틸리티          | camelCase                | `formatDate.ts`                       |
-| 타입              | camelCase + `.types.ts`  | `auth.types.ts`                       |
-| 퍼블릭 API        | 항상 `index.ts`          | `index.ts`                            |
-| Next.js 특수 파일 | 소문자                   | `page.tsx`, `layout.tsx`, `error.tsx` |
+1.  **Contextual Precedence**: 이 파일과 연결된 Skills의 지침은 일반적인 워크플로우보다 우선한다.
+2.  **Rationale Disclosure**: 코드 구현 시 선택한 구조나 로직의 근거(SRP 준수, 불변성 유지 등)를 설명한다.
+3.  **Briefing First**: 코드를 수정하기 전, 변경될 구조를 요약하여 브리핑한 후 동의를 구한다.
+4.  **No Revert**: 에러가 발생하지 않는 한 사용자 동의 없이 코드를 되돌리지 않는다.
