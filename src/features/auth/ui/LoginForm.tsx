@@ -17,8 +17,7 @@ import { FormField } from '@/shared/ui/FormField';
 import { ApiError } from '@/shared/api/ApiError';
 
 import { loginSchema, LoginFormValues } from '../model/authSchema';
-import { login as loginApi } from '../api/loginApi';
-import { useUserStore } from '@/entities/user';
+import { useLoginMutation } from '../api/useLoginMutations';
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -26,39 +25,28 @@ interface LoginFormProps {
 
 export default function LoginForm({ onSuccess }: LoginFormProps) {
   const router = useRouter();
-  const loginStore = useUserStore((state) => state.login);
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
-    try {
-      const res = await loginApi(data);
-      // 성공 시 스토어 업데이트
-      loginStore({
-        id: res.id,
-        email: data.email,
-        name: '사용자', // 실제 이름 데이터가 명세에 없으므로 일단 고정
-      });
-      alert('로그인에 성공했습니다!');
-
+  const { mutate: login, isPending } = useLoginMutation({
+    onSuccess: () => {
       if (onSuccess) {
         onSuccess();
       } else {
         router.replace(ROUTES.HOME);
       }
-    } catch (error) {
-      if (error instanceof ApiError) {
-        alert(error.message);
-      } else {
-        alert('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
-      }
-    }
+    },
+  });
+
+  const onSubmit = (data: LoginFormValues) => {
+    login(data);
   };
+
 
   return (
     <div className="flex flex-col gap-6">
@@ -98,10 +86,10 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 
         <Button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isPending}
           className="mt-2 justify-center py-6 text-base font-bold"
         >
-          {isSubmitting ? '로그인 중...' : '로그인'}
+          {isPending ? '로그인 중...' : '로그인'}
         </Button>
       </form>
 

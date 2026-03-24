@@ -2,12 +2,15 @@
 
 import { DropdownMenu } from '@/shared/ui/DropdownMenu';
 import { LogOutIcon, SettingsIcon, UserIcon } from 'lucide-react';
-import { useUserStore } from '@/entities/user';
-import { ROUTES } from '@/shared/constants/routes';
 import Link from 'next/link';
 
+import { useUserStore } from '@/entities/user';
+import { useLogoutMutation } from '@/features/auth/api/useLoginMutations';
+import { ROUTES } from '@/shared/constants/routes';
+
 export function UserAccountDropdownMenu() {
-  const { user, logout } = useUserStore();
+  const { user } = useUserStore();
+  const { mutate: logout, isPending } = useLogoutMutation();
 
   return (
     <DropdownMenu>
@@ -48,14 +51,12 @@ export function UserAccountDropdownMenu() {
         <div className="my-1 h-px bg-gray-100" />
 
         <DropdownMenu.Item
-          onClick={() => {
-            logout();
-            alert('로그아웃 되었습니다.');
-          }}
-          className="text-red-600 hover:bg-red-50 hover:text-red-700"
+          onClick={() => logout()}
+          disabled={isPending}
+          className="text-red-600 hover:bg-red-50 hover:text-red-700 data-[disabled]:text-gray-400"
         >
           <LogOutIcon className="mr-2 size-4" />
-          로그아웃
+          {isPending ? '로그아웃 중...' : '로그아웃'}
         </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu>

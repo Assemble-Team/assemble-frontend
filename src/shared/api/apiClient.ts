@@ -1,4 +1,8 @@
-import ky, { type BeforeErrorHook, type BeforeRequestHook } from 'ky';
+import ky, {
+  type BeforeErrorHook,
+  type BeforeRequestHook,
+  type AfterResponseHook,
+} from 'ky';
 import { useAuthStore } from '@/shared/model/auth/store';
 import { ApiResponse } from './types';
 
@@ -9,10 +13,10 @@ const beforeRequest: BeforeRequestHook = async (request) => {
   }
 };
 
-const handleApiResponse = async (
-  _request: Request,
-  _options: unknown,
-  response: Response
+const handleApiResponse: AfterResponseHook = async (
+  _request,
+  _options,
+  response
 ) => {
   if (!response.ok) return response;
 
@@ -31,7 +35,6 @@ const handleApiResponse = async (
       headers: response.headers,
     });
     
-    // Authorization 헤더가 있다면 복사
     if (response.headers.has('Authorization')) {
       newResponse.headers.set('Authorization', response.headers.get('Authorization')!);
     }
@@ -42,7 +45,7 @@ const handleApiResponse = async (
   return response;
 };
 
-const afterResponseRetry: BeforeRequestHook = async (
+const afterResponseRetry: AfterResponseHook = async (
   request,
   _options,
   response
