@@ -22,7 +22,9 @@ const FormField = ({
         {required && <span className="text-brand-500 ml-0.5">*</span>}
       </label>
       {children}
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      <div className="min-h-[1.25rem]">
+        {error && <p className="text-sm text-red-500">{error}</p>}
+      </div>
     </div>
   );
 };
