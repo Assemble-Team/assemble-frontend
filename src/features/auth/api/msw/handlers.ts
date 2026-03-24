@@ -28,7 +28,7 @@ export const authHandlers = [
   }),
 
   // 로그인 핸들러
-  http.post('/api/members/login', async () => {
+  http.post('/api/auth/login', async () => {
     return HttpResponse.json(
       wrapResponse({
         id: 1,
