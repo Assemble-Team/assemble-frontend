@@ -9,7 +9,9 @@
 *   **Features**:
     *   `auth/ui/SignupForm`: 회원가입 폼 및 비즈니스 로직 (이메일 인증 버튼 포함).
     *   `auth/model/authSchema`: `signupSchema`, `CATEGORIES`, `SignupRequest` 정의.
-    *   `auth/api/authApi`: `signup`, `requestEmailVerification` API 함수.
+    *   `auth/api/signupApi`: 회원가입 플로우 API 함수 (이메일 인증 포함).
+    *   `auth/api/loginApi`: 로그인/인증 세션 관련 API 함수.
+    *   `auth/api/useSignupMutations`: 회원가입 플로우 Tanstack Query Hooks.
 *   **Pages**:
     *   `auth/signup/ui/SignupPage`: 회원가입 페이지 컨테이너.
 
@@ -49,15 +51,29 @@ export interface SignupResult {
 *   **Response**: `ApiResponse<void>`
     *   성공 시 `code: "COMMON200"`
 
-### 3.2 회원가입
+### 3.2 이메일 인증번호 확인
+*   **Endpoint**: `POST /api/members/email/check`
+*   **Request**: `{ email: string, code: string }`
+*   **Response**: `ApiResponse<void>`
+    *   성공 시 `code: "COMMON200"`
+    *   실패 시 `MEMBER4001` (잘못된 코드), `MEMBER4002` (이미 존재하는 이메일)
+
+### 3.3 회원가입
 *   **Endpoint**: `POST /api/members/signup`
 *   **Request**: `SignupRequest`
 *   **Response**: `ApiResponse<SignupResult>`
     *   성공 시 `result` 필드에 `{ id: number, createdAt: string }` 포함.
 
 ## 4. 핵심 로직 (Key Logic)
-*   **Response Handling**: `apiClient.ts`의 `handleApiResponse` 훅에서 `isSuccess` 여부를 확인하고, 성공 시 `result` 필드만 추출하여 반환함. 만약 `result`가 없는 응답일 경우 `Response` 객체만 반환하도록 보완 필요.
+*   **Email Verification Flow**:
+    1.  사용자가 이메일 입력 후 '인증' 버튼 클릭. (`requestEmailVerification` 호출)
+    2.  성공 시 인증번호 입력 필드 노출.
+    3.  인증번호(6자리) 입력 후 '확인' 버튼 클릭. (`verifyEmailCode` 호출)
+    4.  성공 시 인증 완료 상태로 변경(이메일 필드 비활성화 권장)하고 회원가입 버튼 활성화 조건 충족.
 *   **Form Data Transformation**: `SignupForm` 제출 시 `signupSchema`를 통해 검증된 데이터에서 `confirmPassword`를 제거하여 `authApi.signup`에 전달.
 
 ## 5. 컴포넌트 설계 (Component Design)
-*   **SignupForm**: 이메일 입력 필드 옆에 '인증 요청' 버튼 배치. 해당 버튼 클릭 시 `authApi.requestEmailVerification` 호출.
+*   **SignupForm**: 
+    *   이메일 입력 필드 옆에 '인증' 버튼 배치.
+    *   인증 요청 성공 후, 하단에 인증번호 입력 필드와 '확인' 버튼이 동적으로 렌더링됨.
+    *   인증이 완료되면 해당 영역은 '인증 완료' 메시지로 대체되거나 체크 아이콘으로 표시됨.

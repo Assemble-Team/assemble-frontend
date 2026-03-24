@@ -21,10 +21,20 @@
     *   [x] `apiClient.ts`: `result` 필드 없는 응답(void) 처리 로직 보완
     *   [x] `SignupForm`: 이메일 인증 요청 버튼 UI 추가 및 기능 연동
     *   [x] `SignupForm`: 회원가입 제출 시 `confirmPassword` 필드 제외 처리
+*   [x] **Phase 6: 이메일 인증번호 확인 구현**
+    *   [x] `authApi.ts`: 인증번호 확인 API 추가 (`/api/members/email/check`)
+    *   [x] `SignupForm`: 인증번호 입력 필드 및 '확인' 버튼 UI 구현
+    *   [x] `SignupForm`: 인증번호 확인 성공 시 인증 상태 관리 (UI 피드백)
+    *   [x] `SignupForm`: 이메일 인증이 완료되지 않은 경우 회원가입 제출 차단 로직
 
 ## 2. 세부 체크리스트 (Detailed Tasks)
-### 🚀 Phase 5: API Refactoring & Email Auth
-- [x] `SignupForm`에서 이메일 입력값 유효성 확인 후 '인증 요청' 버튼 활성화 로직
-- [x] 이메일 인증 요청 성공 시 토스트 알림 표시 (현재 alert으로 대체)
-- [x] 회원가입 요청 데이터 변환 (FormValues -> SignupRequest)
-- [x] 서버 에러(예: MEMBER4003) 발생 시 명세에 따른 메시지 노출 (ApiError 활용)
+### 🚀 Phase 6: Email Verification Check
+- [x] 6자리 인증번호 입력 시에만 '확인' 버튼 활성화 로직
+- [x] 인증 성공 시 이메일 입력 필드 Read-only 처리
+- [x] `MEMBER4001`, `MEMBER4002` 에러 메시지 팝업 처리 (alert 활용)
+
+## 3. 검증 및 테스트 계획 (Verification)
+*   [x] 이메일 인증 요청 시 `/api/members/email` 호출 및 성공 응답 확인
+*   [x] 인증번호 확인 시 `/api/members/email/check` 호출 및 결과 반영 확인
+*   [x] 잘못된 인증번호 입력 시 `MEMBER4001` 에러 메시지 노출 확인
+*   [x] 인증되지 않은 상태에서 회원가입 시도 시 버튼 비활성화 확인
