@@ -17,7 +17,7 @@ import { FormField } from '@/shared/ui/FormField';
 import { ApiError } from '@/shared/api/ApiError';
 
 import { loginSchema, LoginFormValues } from '../model/authSchema';
-import { authApi } from '../api/authApi';
+import { login as loginApi } from '../api/loginApi';
 import { useUserStore } from '@/entities/user';
 
 interface LoginFormProps {
@@ -26,7 +26,7 @@ interface LoginFormProps {
 
 export default function LoginForm({ onSuccess }: LoginFormProps) {
   const router = useRouter();
-  const login = useUserStore((state) => state.login);
+  const loginStore = useUserStore((state) => state.login);
   const {
     register,
     handleSubmit,
@@ -37,9 +37,9 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      const res = await authApi.login(data);
+      const res = await loginApi(data);
       // 성공 시 스토어 업데이트
-      login({
+      loginStore({
         id: res.id,
         email: data.email,
         name: '사용자', // 실제 이름 데이터가 명세에 없으므로 일단 고정
