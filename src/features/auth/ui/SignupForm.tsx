@@ -55,6 +55,7 @@ export default function SignupForm({ onSuccess }: SignupFormProps) {
   });
 
   const selectedCategories = watch('categories');
+  const email = watch('email');
 
   const toggleCategory = (category: (typeof CATEGORIES)[number]) => {
     const current = selectedCategories || [];
@@ -64,9 +65,31 @@ export default function SignupForm({ onSuccess }: SignupFormProps) {
     setValue('categories', next, { shouldValidate: true });
   };
 
+  const handleRequestEmail = async () => {
+    if (!email || errors.email) {
+      alert('유효한 이메일을 입력해주세요.');
+      return;
+    }
+
+    try {
+      await authApi.requestEmailVerification(email);
+      alert('인증 이메일이 발송되었습니다. 이메일을 확인해주세요!');
+    } catch (error) {
+      if (error instanceof ApiError) {
+        alert(error.message);
+      } else {
+        alert('이메일 인증 요청 중 오류가 발생했습니다.');
+      }
+    }
+  };
+
   const onSubmit = async (data: SignupFormValues) => {
     try {
-      const res = await authApi.signup(data);
+      // 백엔드 전송 시 confirmPassword 제외
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { confirmPassword, ...signupData } = data;
+      const res = await authApi.signup(signupData);
+
       // 성공 시 자동 로그인 처리
       login({
         id: res.id,
@@ -74,7 +97,7 @@ export default function SignupForm({ onSuccess }: SignupFormProps) {
         name: data.name,
       });
       alert('회원가입이 완료되었습니다!');
-      
+
       if (onSuccess) {
         onSuccess();
       } else {
@@ -124,7 +147,12 @@ export default function SignupForm({ onSuccess }: SignupFormProps) {
                 placeholder="이메일"
               />
             </InputGroup>
-            <Button type="button" variant="outline" className="shrink-0">
+            <Button
+              type="button"
+              variant="outline"
+              className="shrink-0"
+              onClick={handleRequestEmail}
+            >
               인증
             </Button>
           </div>

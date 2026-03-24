@@ -1,6 +1,5 @@
 import { apiClient } from '@/shared/api/apiClient';
-import { ApiResponse } from '@/shared/api/types';
-import { SignupFormValues, LoginFormValues } from '../model/authSchema';
+import { SignupRequest, LoginFormValues } from '../model/authSchema';
 
 export interface SignupResult {
   id: number;
@@ -12,13 +11,31 @@ export interface LoginResult {
   id: number;
 }
 
-export type AuthResponse = ApiResponse<SignupResult>;
-
 export const authApi = {
-  signup: async (data: SignupFormValues): Promise<SignupResult> => {
-    return apiClient.post('auth/signup', { json: data }).json<SignupResult>();
+  /**
+   * 이메일 인증 요청
+   * POST /api/members/email
+   */
+  requestEmailVerification: async (email: string): Promise<void> => {
+    return apiClient
+      .post('api/members/email', { json: { email } })
+      .json<void>();
   },
 
+  /**
+   * 회원가입
+   * POST /api/members/signup
+   */
+  signup: async (data: SignupRequest): Promise<SignupResult> => {
+    return apiClient
+      .post('api/members/signup', { json: data })
+      .json<SignupResult>();
+  },
+
+  /**
+   * 로그인
+   * POST auth/login (기존 유지)
+   */
   login: async (data: LoginFormValues): Promise<LoginResult> => {
     return apiClient.post('auth/login', { json: data }).json<LoginResult>();
   },
