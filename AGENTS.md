@@ -73,5 +73,7 @@
 2.  **Rationale Disclosure**: 코드 구현 시 선택한 구조나 로직의 근거(SRP 준수, 불변성 유지 등)를 설명한다.
 3.  **Briefing First**: 코드를 수정하기 전, 변경될 구조를 요약하여 브리핑한 후 동의를 구한다.
 4.  No Revert: 에러가 발생하지 않는 한 사용자 동의 없이 코드를 되돌리지 않는다.
-5.  Git Workflow: 모든 `git pull` 작업은 `upstream`이 아닌 `origin` 저장소를 기준으로 수행한다. 사용자가 직접 포크 싱크(Fork Sync)를 진행할 예정이다.
+5.  Git Workflow: 
+    *   **Pull/Sync**: 모든 `git pull` 작업은 `upstream`이 아닌 `origin` 저장소를 기준으로 수행한다. (사용자가 직접 포크 싱크 진행)
+    *   **Issue/PR**: 이슈 생성 및 풀 리퀘스트(PR)는 항상 **`upstream` 저장소(`Assemble-Team/assemble-frontend`)**를 대상으로 수행한다. PR 생성 시 `head` 브랜치는 `내계정:브랜치명` 형식을 사용한다.
 

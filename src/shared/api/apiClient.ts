@@ -32,9 +32,9 @@ const handleApiResponse = async (
       throw new Error(body.message || '요청 처리에 실패했습니다.');
     }
 
-    // result 필드만 담은 새로운 응답 객체 생성하여 반환
+    // result 필드만 담은 새로운 응답 객체 생성하여 반환 (result가 없으면 빈 객체 반환)
     // 원본 응답의 메타데이터(상태코드, 헤더 등)를 최대한 보존
-    return new Response(JSON.stringify(body.result), {
+    return new Response(JSON.stringify(body.result ?? {}), {
       status: response.status,
       statusText: response.statusText,
       headers: response.headers,

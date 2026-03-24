@@ -39,5 +39,6 @@ export const findPasswordSchema = z.object({
 });
 
 export type SignupFormValues = z.infer<typeof signupSchema>;
+export type SignupRequest = Omit<SignupFormValues, 'confirmPassword'>;
 export type LoginFormValues = z.infer<typeof loginSchema>;
 export type FindPasswordFormValues = z.infer<typeof findPasswordSchema>;
